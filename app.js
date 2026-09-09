@@ -8,6 +8,7 @@ const wordPronunciation = document.querySelector("#wordPronunciation");
 const exampleSentence = document.querySelector("#exampleSentence");
 const speakButton = document.querySelector("#speakButton");
 const clearHistoryButton = document.querySelector("#clearHistoryButton");
+const pasteButton = document.querySelector("#pasteButton");
 const randomWordButton = document.querySelector("#randomWordButton");
 const zoomOutButton = document.querySelector("#zoomOutButton");
 const zoomInButton = document.querySelector("#zoomInButton");
@@ -247,6 +248,30 @@ function showRandomWord() {
   });
 }
 
+async function pasteFromClipboard() {
+  if (!navigator.clipboard || !navigator.clipboard.readText) {
+    setStatus("Clipboard paste is not available in this browser.", true);
+    return;
+  }
+
+  try {
+    const text = await navigator.clipboard.readText();
+    const word = text.trim().split(/\s+/)[0] || "";
+
+    if (!word) {
+      resetWord("Clipboard is empty.");
+      return;
+    }
+
+    wordInput.value = word;
+    renderSuggestions(false);
+    lookupWord();
+    saveSettings();
+  } catch {
+    setStatus("Clipboard permission was blocked.", true);
+  }
+}
+
 function speakWord() {
   if (!activeWord || !("speechSynthesis" in window)) return;
 
@@ -341,6 +366,7 @@ async function boot() {
   subjectSelect.addEventListener("change", syncForSelectionChange);
   speakButton.addEventListener("click", speakWord);
   clearHistoryButton.addEventListener("click", clearHistory);
+  pasteButton.addEventListener("click", pasteFromClipboard);
   randomWordButton.addEventListener("click", showRandomWord);
   zoomOutButton.addEventListener("click", () => changeZoom(-ZOOM_STEP));
   zoomInButton.addEventListener("click", () => changeZoom(ZOOM_STEP));
