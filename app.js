@@ -8,6 +8,7 @@ const wordPronunciation = document.querySelector("#wordPronunciation");
 const exampleSentence = document.querySelector("#exampleSentence");
 const speakButton = document.querySelector("#speakButton");
 const clearHistoryButton = document.querySelector("#clearHistoryButton");
+const randomWordButton = document.querySelector("#randomWordButton");
 const zoomOutButton = document.querySelector("#zoomOutButton");
 const zoomInButton = document.querySelector("#zoomInButton");
 const lookupStatus = document.querySelector("#lookupStatus");
@@ -21,6 +22,7 @@ const MAX_ZOOM = 1.4;
 const ZOOM_STEP = 0.1;
 let wordData = [];
 let activeWord = "";
+let restoredWordValue = "";
 
 function historyKey() {
   return `${STORE_PREFIX}:${classSelect.value}:${subjectSelect.value}`;
@@ -96,16 +98,20 @@ function setStatus(message, isWarning = false) {
   lookupStatus.classList.toggle("is-warning", isWarning);
 }
 
-function showWord(entry) {
+function showWord(entry, options = {}) {
   activeWord = entry.word;
   selectedWord.textContent = entry.word;
   wordSpelling.textContent = spellingFor(entry);
   wordPronunciation.textContent = normalizePronunciation(pronunciationFor(entry));
   exampleSentence.textContent = sentenceFor(entry);
   speakButton.disabled = false;
-  saveHistory(entry.word);
-  saveSettings();
-  setStatus(`Saved to Class ${classSelect.value} ${subjectSelect.value} history.`);
+
+  if (options.save !== false) {
+    saveHistory(entry.word);
+    saveSettings();
+  }
+
+  setStatus(options.status || `Saved to Class ${classSelect.value} ${subjectSelect.value} history.`);
 }
 
 function resetWord(message = "Select a word from the suggestions.") {
@@ -170,6 +176,68 @@ function lookupWord() {
   setStatus(`No JSON entry found for "${value}".`, true);
 }
 
+function todayKey() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function wordOfTheDay() {
+  if (!wordData.length) return null;
+
+  const seedText = todayKey();
+  let seed = 0;
+
+  for (let index = 0; index < seedText.length; index += 1) {
+    seed = (seed * 31 + seedText.charCodeAt(index)) % wordData.length;
+  }
+
+  return wordData[seed];
+}
+
+function showWordOfTheDay() {
+  const entry = wordOfTheDay();
+  if (!entry) {
+    resetWord("No words found in words.json.");
+    return;
+  }
+
+  wordInput.value = entry.word;
+  showWord(entry, {
+    save: false,
+    status: `Word of the day for ${todayKey()}.`
+  });
+}
+
+function randomWord() {
+  if (!wordData.length) return null;
+  if (wordData.length === 1) return wordData[0];
+
+  let entry = wordData[Math.floor(Math.random() * wordData.length)];
+
+  while (entry.word === activeWord) {
+    entry = wordData[Math.floor(Math.random() * wordData.length)];
+  }
+
+  return entry;
+}
+
+function showRandomWord() {
+  const entry = randomWord();
+  if (!entry) {
+    resetWord("No words found in words.json.");
+    return;
+  }
+
+  wordInput.value = entry.word;
+  renderSuggestions(false);
+  showWord(entry, {
+    status: "New random word."
+  });
+}
+
 function speakWord() {
   if (!activeWord || !("speechSynthesis" in window)) return;
 
@@ -204,7 +272,8 @@ function restoreSettings() {
 
   if (settings.classValue) classSelect.value = settings.classValue;
   if (settings.subjectValue) subjectSelect.value = settings.subjectValue;
-  if (settings.wordValue) wordInput.value = settings.wordValue;
+  restoredWordValue = settings.wordValue || "";
+  if (restoredWordValue) wordInput.value = restoredWordValue;
 }
 
 function applyZoom(value) {
@@ -230,7 +299,11 @@ async function boot() {
   try {
     const response = await fetch("words.json");
     wordData = await response.json();
-    lookupWord();
+    if (restoredWordValue) {
+      lookupWord();
+    } else {
+      showWordOfTheDay();
+    }
   } catch {
     wordData = [];
     resetWord("Could not load words.json.");
@@ -259,6 +332,7 @@ async function boot() {
   subjectSelect.addEventListener("change", syncForSelectionChange);
   speakButton.addEventListener("click", speakWord);
   clearHistoryButton.addEventListener("click", clearHistory);
+  randomWordButton.addEventListener("click", showRandomWord);
   zoomOutButton.addEventListener("click", () => changeZoom(-ZOOM_STEP));
   zoomInButton.addEventListener("click", () => changeZoom(ZOOM_STEP));
 }
