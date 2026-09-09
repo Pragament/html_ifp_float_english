@@ -1,22 +1,20 @@
-{
-  "English": [
-    {
-      "word": "Red",
-      "Spelling": "R-E-D",
-      "Easy Pronunciation": "**red**"
-    },
-    {
-      "word": "Yellow",
-      "Spelling": "Y-E-L-L-O-W",
-      "Easy Pronunciation": "**YEL-oh**"
-    },
-    {
-      "word": "Blue",
-      "Spelling": "B-L-U-E",
-      "Easy Pronunciation": "**bloo**"
-    }
-  ],
-  "Math": [],
-  "Science": [],
-  "Social": []
-}
+[
+  {
+    "word": "Red",
+    "Spelling": "R-E-D",
+    "Easy Pronunciation": "**red**",
+    "Example Sentence": "The red ball is on the table."
+  },
+  {
+    "word": "Yellow",
+    "Spelling": "Y-E-L-L-O-W",
+    "Easy Pronunciation": "**YEL-oh**",
+    "Example Sentence": "I have a yellow pencil."
+  },
+  {
+    "word": "Blue",
+    "Spelling": "B-L-U-E",
+    "Easy Pronunciation": "**bloo**",
+    "Example Sentence": "The sky is blue today."
+  }
+]

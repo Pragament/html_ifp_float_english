@@ -26,14 +26,13 @@ body {
   width: min(100%, 520px);
   min-height: 100vh;
   margin: 0 auto;
-  padding: 8px;
+  padding: 6px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .topbar,
-.controls,
 .word-card {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -41,8 +40,8 @@ body {
 }
 
 .topbar {
-  min-height: 44px;
-  padding: 6px 8px;
+  min-height: 38px;
+  padding: 4px 6px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -50,48 +49,37 @@ body {
 }
 
 h1,
-h2,
 p {
   margin: 0;
 }
 
 h1 {
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.15;
 }
 
-h2 {
-  min-height: 30px;
-  font-size: 26px;
-  line-height: 1.15;
+.toolbar {
+  display: flex;
+  gap: 4px;
 }
 
 .icon-button {
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: #fff;
   color: var(--muted);
-  font-size: 24px;
+  font-size: 18px;
+  font-weight: 700;
   line-height: 1;
   cursor: pointer;
 }
 
 .controls {
-  padding: 8px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-label {
-  display: grid;
-  gap: 4px;
-  min-width: 0;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
+  grid-template-columns: minmax(78px, 0.8fr) minmax(100px, 1fr) minmax(118px, 1.4fr);
+  gap: 6px;
 }
 
 select,
@@ -103,13 +91,14 @@ button {
 select,
 input {
   width: 100%;
-  min-height: 40px;
+  min-width: 0;
+  min-height: 36px;
   border: 1px solid var(--line);
   border-radius: 6px;
-  padding: 8px 10px;
+  padding: 6px 8px;
   background: #fff;
   color: var(--text);
-  font-size: 16px;
+  font-size: 15px;
 }
 
 select:focus,
@@ -117,13 +106,6 @@ input:focus,
 button:focus-visible {
   outline: 2px solid rgba(15, 118, 110, 0.28);
   outline-offset: 1px;
-}
-
-.word-field {
-  padding: 8px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 8px;
 }
 
 .suggestions {
@@ -171,46 +153,43 @@ button:focus-visible {
 }
 
 .word-card {
-  padding: 10px;
+  padding: 6px;
   display: grid;
-  gap: 10px;
+  gap: 6px;
 }
 
-.meta {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
-}
-
-dl {
-  margin: 0;
+.word-row {
   display: grid;
-  gap: 8px;
+  grid-template-columns: minmax(80px, 1fr) minmax(88px, 1fr) minmax(120px, 1.25fr);
+  gap: 6px;
 }
 
-dl > div {
-  min-height: 48px;
-  padding: 8px;
+.word-row output {
+  min-width: 0;
+  min-height: 38px;
+  padding: 7px 8px;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: #fbfcfd;
-}
-
-dt {
-  color: var(--muted);
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
-}
-
-dd {
-  margin: 4px 0 0;
-  font-size: 20px;
-  line-height: 1.2;
+  line-height: 1.25;
   overflow-wrap: anywhere;
 }
 
+.sentence {
+  min-height: 34px;
+  padding: 7px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fbfcfd;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.25;
+}
+
 .speak-button {
-  min-height: 42px;
+  min-height: 36px;
   border: 0;
   border-radius: 6px;
   background: var(--accent);
@@ -257,19 +236,33 @@ dd {
 
 @media (max-width: 360px) {
   .app {
-    padding: 6px;
-    gap: 6px;
+    padding: 4px;
+    gap: 4px;
   }
 
   .controls {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(65px, 0.7fr) minmax(82px, 0.9fr) minmax(94px, 1.2fr);
+    gap: 4px;
   }
 
   h1 {
-    font-size: 18px;
+    font-size: 16px;
   }
 
-  h2 {
-    font-size: 24px;
+  select,
+  input {
+    padding-inline: 5px;
+    font-size: 13px;
+  }
+
+  .word-row {
+    grid-template-columns: minmax(62px, 1fr) minmax(72px, 1fr) minmax(92px, 1.2fr);
+    gap: 4px;
+  }
+
+  .word-row output,
+  .sentence {
+    padding-inline: 5px;
+    font-size: 13px;
   }
 }
