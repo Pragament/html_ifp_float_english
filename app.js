@@ -124,6 +124,16 @@ function resetWord(message = "Select a word from the suggestions.") {
   setStatus(message);
 }
 
+function showTypedWord(value, message, isWarning = false) {
+  activeWord = value.trim();
+  selectedWord.textContent = activeWord || "Selected Word";
+  wordSpelling.textContent = "Spelling";
+  wordPronunciation.textContent = "Easy Pronunciation";
+  exampleSentence.textContent = "Example sentence";
+  speakButton.disabled = !activeWord;
+  setStatus(message, isWarning);
+}
+
 function suggestionButton(word, source) {
   const button = document.createElement("button");
   const wordLabel = document.createElement("span");
@@ -172,8 +182,7 @@ function lookupWord() {
   }
 
   saveSettings();
-  resetWord(`No JSON entry found for "${value}".`);
-  setStatus(`No JSON entry found for "${value}".`, true);
+  showTypedWord(value, `No JSON entry found for "${value}".`, true);
 }
 
 function todayKey() {
