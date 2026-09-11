@@ -25,7 +25,7 @@ const SETTINGS_KEY = "ifp-tutor-settings";
 const ZOOM_KEY = "ifp-tutor-zoom";
 const WEBLLM_MODEL_KEY = "ifp-tutor-webllm-model";
 const WEBLLM_MODULE_URL = "https://esm.run/@mlc-ai/web-llm";
-const DEFAULT_WEBLLM_MODEL = "Qwen2.5-0.5B-Instruct-q4f16_1-MLC";
+const DEFAULT_WEBLLM_MODEL = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
 const WEBLLM_MODELS = [
   "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
   "Llama-3.2-1B-Instruct-q4f16_1-MLC",
