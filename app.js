@@ -2,6 +2,7 @@ const classSelect = document.querySelector("#classSelect");
 const subjectSelect = document.querySelector("#subjectSelect");
 const wordInput = document.querySelector("#wordInput");
 const suggestions = document.querySelector("#suggestions");
+const wordRow = document.querySelector(".word-row");
 const selectedWord = document.querySelector("#selectedWord");
 const wordSpelling = document.querySelector("#wordSpelling");
 const wordPronunciation = document.querySelector("#wordPronunciation");
@@ -111,39 +112,6 @@ function sentenceFor(entry) {
   return entry["Example Sentence"] || entry.exampleSentence || "-";
 }
 
-function lettersOnly(value) {
-  return value.toLowerCase().replace(/[^a-z]/g, "");
-}
-
-function hasSameLettersAsWord(value, word) {
-  return lettersOnly(value) === lettersOnly(word);
-}
-
-function fallbackSpelling(word) {
-  return word.trim() || "-";
-}
-
-function fallbackSentence(word) {
-  return `I can use the word ${word.trim() || "it"} in a sentence.`;
-}
-
-function sanitizeGeneratedEntry(entry, word) {
-  const cleanWord = word.trim();
-  const spelling = entry.Spelling || entry.spelling || "";
-  const pronunciation = entry["Easy Pronunciation"] || entry.easyPronunciation || "";
-  const sentence = entry["Example Sentence"] || entry.exampleSentence || "";
-  const safeSentence = sentence.toLowerCase().includes(cleanWord.toLowerCase())
-    ? sentence.trim()
-    : fallbackSentence(cleanWord);
-
-  return {
-    word: cleanWord,
-    Spelling: hasSameLettersAsWord(spelling, cleanWord) ? spelling.trim() : fallbackSpelling(cleanWord),
-    "Easy Pronunciation": normalizePronunciation(pronunciation || cleanWord, cleanWord),
-    "Example Sentence": safeSentence
-  };
-}
-
 function currentWords() {
   return wordData;
 }
@@ -163,8 +131,13 @@ function setWebLLMStatus(message, isWarning = false) {
   webllmStatus.classList.toggle("is-warning", isWarning);
 }
 
+function setWordRowVisible(isVisible) {
+  wordRow.hidden = !isVisible;
+}
+
 function showWord(entry, options = {}) {
   activeWord = entry.word;
+  setWordRowVisible(true);
   selectedWord.textContent = entry.word;
   wordSpelling.textContent = spellingFor(entry);
   wordPronunciation.textContent = normalizePronunciation(pronunciationFor(entry), entry.word);
@@ -181,6 +154,7 @@ function showWord(entry, options = {}) {
 
 function resetWord(message = "Select a word from the suggestions.") {
   activeWord = "";
+  setWordRowVisible(true);
   selectedWord.textContent = "Selected Word";
   wordSpelling.textContent = "Spelling";
   wordPronunciation.textContent = "Easy Pronunciation";
@@ -191,6 +165,7 @@ function resetWord(message = "Select a word from the suggestions.") {
 
 function showTypedWord(value, message, isWarning = false) {
   activeWord = value.trim();
+  setWordRowVisible(false);
   selectedWord.textContent = activeWord || "Selected Word";
   wordSpelling.textContent = "Spelling";
   wordPronunciation.textContent = "Easy Pronunciation";
@@ -202,6 +177,7 @@ function showTypedWord(value, message, isWarning = false) {
 function showLoadingAIWord(value) {
   activeWord = value.trim();
   pendingWebLLMWord = activeWord;
+  setWordRowVisible(false);
   selectedWord.textContent = activeWord;
   wordSpelling.textContent = "Loading...";
   wordPronunciation.textContent = "Loading...";
@@ -349,41 +325,6 @@ async function loadWebLLMModel(modelId = webllmModelSelect.value) {
   return webllmEnginePromise;
 }
 
-function parseJSONFromText(text) {
-  try {
-    return JSON.parse(text);
-  } catch {
-    const match = text.match(/\{[\s\S]*\}/);
-    return match ? JSON.parse(match[0]) : null;
-  }
-}
-
-function parseLabeledEntryFromText(text) {
-  const entry = {};
-  const keyMap = {
-    word: "word",
-    spelling: "Spelling",
-    "easy pronunciation": "Easy Pronunciation",
-    "example sentence": "Example Sentence"
-  };
-
-  text.split(/\r?\n/).forEach((line) => {
-    const match = line.match(/^([^:]+):\s*(.+)$/);
-    if (!match) return;
-
-    const label = match[1].replace(/\*/g, "").trim().toLowerCase();
-    const value = match[2].replace(/\*\*/g, "").trim().replace(/^["']|["']$/g, "");
-    const key = keyMap[label];
-    if (key) entry[key] = value;
-  });
-
-  return Object.keys(entry).length ? entry : null;
-}
-
-function parseWebLLMEntryFromText(text) {
-  return parseJSONFromText(text) || parseLabeledEntryFromText(text);
-}
-
 async function generateWebLLMWord(value, lookupToken) {
   showLoadingAIWord(value);
   let debugRequest = null;
@@ -397,12 +338,11 @@ async function generateWebLLMWord(value, lookupToken) {
     const messages = [
       {
         role: "system",
-        content:
-          "You help young English learners. Return only valid JSON with keys word, Spelling, Easy Pronunciation, and Example Sentence. Keep the sentence simple."
+        content: "You help young English learners. Write only one simple example sentence."
       },
       {
         role: "user",
-        content: `Create a short learner-friendly entry for this English word: ${value}`
+        content: `Write one simple example sentence using the word: ${value}`
       }
     ];
     const request = {
@@ -429,31 +369,25 @@ async function generateWebLLMWord(value, lookupToken) {
 
     const content = response.choices?.[0]?.message?.content || "";
     debugContent = content;
-    const aiEntry = parseWebLLMEntryFromText(content);
 
     console.log("[WebLLM] word generation response", {
       word: value,
       model: loadedWebllmModel,
       rawResponse: response,
-      content,
-      parsedEntry: aiEntry
+      content
     });
 
-    if (!aiEntry) {
-      throw new Error("WebLLM returned content that could not be parsed.");
+    if (!content.trim()) {
+      throw new Error("WebLLM returned an empty response.");
     }
 
-    const sanitizedEntry = sanitizeGeneratedEntry(aiEntry, value);
-    console.log("[WebLLM] sanitized word entry", {
-      word: value,
-      model: loadedWebllmModel,
-      parsedEntry: aiEntry,
-      sanitizedEntry
-    });
-
-    showWord(sanitizedEntry, {
-      status: `Generated by WebLLM because "${value}" is not in words.json.`
-    });
+    activeWord = value;
+    setWordRowVisible(false);
+    exampleSentence.textContent = content.trim();
+    speakButton.disabled = false;
+    saveHistory(value);
+    saveSettings();
+    setStatus(`Generated example sentence with WebLLM because "${value}" is not in words.json.`);
     pendingWebLLMWord = "";
   } catch (error) {
     if (lookupToken !== aiLookupToken) return;
