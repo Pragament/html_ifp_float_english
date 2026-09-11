@@ -5,17 +5,46 @@ const suggestions = document.querySelector("#suggestions");
 const selectedWord = document.querySelector("#selectedWord");
 const wordSpelling = document.querySelector("#wordSpelling");
 const wordPronunciation = document.querySelector("#wordPronunciation");
+const exampleSentence = document.querySelector("#exampleSentence");
 const speakButton = document.querySelector("#speakButton");
 const clearHistoryButton = document.querySelector("#clearHistoryButton");
+const pasteButton = document.querySelector("#pasteButton");
+const randomWordButton = document.querySelector("#randomWordButton");
+const zoomOutButton = document.querySelector("#zoomOutButton");
+const zoomInButton = document.querySelector("#zoomInButton");
 const lookupStatus = document.querySelector("#lookupStatus");
 
 const HISTORY_LIMIT = 12;
 const STORE_PREFIX = "ifp-word-history";
-let wordData = {};
+const SETTINGS_KEY = "ifp-tutor-settings";
+const ZOOM_KEY = "ifp-tutor-zoom";
+const MIN_ZOOM = 0.8;
+const MAX_ZOOM = 1.4;
+const ZOOM_STEP = 0.1;
+let wordData = [];
 let activeWord = "";
+let restoredWordValue = "";
 
 function historyKey() {
   return `${STORE_PREFIX}:${classSelect.value}:${subjectSelect.value}`;
+}
+
+function getSettings() {
+  try {
+    return JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function saveSettings() {
+  const settings = {
+    classValue: classSelect.value,
+    subjectValue: subjectSelect.value,
+    wordValue: wordInput.value.trim()
+  };
+
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
 }
 
 function getHistory() {
@@ -40,6 +69,12 @@ function clearHistory() {
   renderSuggestions();
 }
 
+function confirmClearHistory() {
+  if (window.confirm("Clear recent words?")) {
+    clearHistory();
+  }
+}
+
 function normalizePronunciation(value) {
   return value.replace(/\*\*/g, "");
 }
@@ -52,8 +87,12 @@ function pronunciationFor(entry) {
   return entry["Easy Pronunciation"] || entry.easyPronunciation || "-";
 }
 
+function sentenceFor(entry) {
+  return entry["Example Sentence"] || entry.exampleSentence || "-";
+}
+
 function currentWords() {
-  return wordData[subjectSelect.value] || [];
+  return wordData;
 }
 
 function findWord(value) {
@@ -66,23 +105,40 @@ function setStatus(message, isWarning = false) {
   lookupStatus.classList.toggle("is-warning", isWarning);
 }
 
-function showWord(entry) {
+function showWord(entry, options = {}) {
   activeWord = entry.word;
   selectedWord.textContent = entry.word;
   wordSpelling.textContent = spellingFor(entry);
   wordPronunciation.textContent = normalizePronunciation(pronunciationFor(entry));
+  exampleSentence.textContent = sentenceFor(entry);
   speakButton.disabled = false;
-  saveHistory(entry.word);
-  setStatus(`Saved to Class ${classSelect.value} ${subjectSelect.value} history.`);
+
+  if (options.save !== false) {
+    saveHistory(entry.word);
+    saveSettings();
+  }
+
+  setStatus(options.status || `Saved to Class ${classSelect.value} ${subjectSelect.value} history.`);
 }
 
 function resetWord(message = "Select a word from the suggestions.") {
   activeWord = "";
-  selectedWord.textContent = "-";
-  wordSpelling.textContent = "-";
-  wordPronunciation.textContent = "-";
+  selectedWord.textContent = "Selected Word";
+  wordSpelling.textContent = "Spelling";
+  wordPronunciation.textContent = "Easy Pronunciation";
+  exampleSentence.textContent = "Example sentence";
   speakButton.disabled = true;
   setStatus(message);
+}
+
+function showTypedWord(value, message, isWarning = false) {
+  activeWord = value.trim();
+  selectedWord.textContent = activeWord || "Selected Word";
+  wordSpelling.textContent = "Spelling";
+  wordPronunciation.textContent = "Easy Pronunciation";
+  exampleSentence.textContent = "Example sentence";
+  speakButton.disabled = !activeWord;
+  setStatus(message, isWarning);
 }
 
 function suggestionButton(word, source) {
@@ -132,8 +188,94 @@ function lookupWord() {
     return;
   }
 
-  resetWord(`No ${subjectSelect.value} JSON entry found for "${value}".`);
-  setStatus(`No ${subjectSelect.value} JSON entry found for "${value}".`, true);
+  saveSettings();
+  showTypedWord(value, `No JSON entry found for "${value}".`, true);
+}
+
+function todayKey() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function wordOfTheDay() {
+  if (!wordData.length) return null;
+
+  const seedText = todayKey();
+  let seed = 0;
+
+  for (let index = 0; index < seedText.length; index += 1) {
+    seed = (seed * 31 + seedText.charCodeAt(index)) % wordData.length;
+  }
+
+  return wordData[seed];
+}
+
+function showWordOfTheDay() {
+  const entry = wordOfTheDay();
+  if (!entry) {
+    resetWord("No words found in words.json.");
+    return;
+  }
+
+  wordInput.value = entry.word;
+  showWord(entry, {
+    save: false,
+    status: `Word of the day for ${todayKey()}.`
+  });
+}
+
+function randomWord() {
+  if (!wordData.length) return null;
+  if (wordData.length === 1) return wordData[0];
+
+  let entry = wordData[Math.floor(Math.random() * wordData.length)];
+
+  while (entry.word === activeWord) {
+    entry = wordData[Math.floor(Math.random() * wordData.length)];
+  }
+
+  return entry;
+}
+
+function showRandomWord() {
+  const entry = randomWord();
+  if (!entry) {
+    resetWord("No words found in words.json.");
+    return;
+  }
+
+  wordInput.value = entry.word;
+  renderSuggestions(false);
+  showWord(entry, {
+    status: "New random word."
+  });
+}
+
+async function pasteFromClipboard() {
+  if (!navigator.clipboard || !navigator.clipboard.readText) {
+    setStatus("Clipboard paste is not available in this browser.", true);
+    return;
+  }
+
+  try {
+    const text = await navigator.clipboard.readText();
+    const word = text.trim().split(/\s+/)[0] || "";
+
+    if (!word) {
+      resetWord("Clipboard is empty.");
+      return;
+    }
+
+    wordInput.value = word;
+    renderSuggestions(false);
+    lookupWord();
+    saveSettings();
+  } catch {
+    setStatus("Clipboard permission was blocked.", true);
+  }
 }
 
 function speakWord() {
@@ -147,9 +289,9 @@ function speakWord() {
 }
 
 function syncForSelectionChange() {
-  wordInput.value = "";
+  saveSettings();
   renderSuggestions(false);
-  resetWord(`Class ${classSelect.value} ${subjectSelect.value} ready.`);
+  lookupWord();
 }
 
 function bootClassOptions() {
@@ -165,15 +307,45 @@ function bootClassOptions() {
   classSelect.append(fragment);
 }
 
+function restoreSettings() {
+  const settings = getSettings();
+
+  if (settings.classValue) classSelect.value = settings.classValue;
+  if (settings.subjectValue) subjectSelect.value = settings.subjectValue;
+  restoredWordValue = settings.wordValue || "";
+  if (restoredWordValue) wordInput.value = restoredWordValue;
+}
+
+function applyZoom(value) {
+  const zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Number(value) || 1));
+  document.body.style.zoom = String(zoom);
+  localStorage.setItem(ZOOM_KEY, String(zoom));
+}
+
+function restoreZoom() {
+  applyZoom(localStorage.getItem(ZOOM_KEY) || 1);
+}
+
+function changeZoom(delta) {
+  const currentZoom = Number(localStorage.getItem(ZOOM_KEY)) || 1;
+  applyZoom((currentZoom + delta).toFixed(2));
+}
+
 async function boot() {
   bootClassOptions();
+  restoreSettings();
+  restoreZoom();
 
   try {
     const response = await fetch("words.json");
     wordData = await response.json();
-    resetWord("Pick English and start with Red, Yellow, or Blue.");
+    if (restoredWordValue) {
+      lookupWord();
+    } else {
+      showWordOfTheDay();
+    }
   } catch {
-    wordData = {};
+    wordData = [];
     resetWord("Could not load words.json.");
     setStatus("Could not load words.json.", true);
   }
@@ -181,6 +353,7 @@ async function boot() {
   wordInput.addEventListener("input", () => {
     renderSuggestions();
     lookupWord();
+    saveSettings();
   });
   wordInput.addEventListener("focus", () => renderSuggestions());
   wordInput.addEventListener("keydown", (event) => {
@@ -191,14 +364,18 @@ async function boot() {
     if (event.key === "Escape") renderSuggestions(false);
   });
   document.addEventListener("click", (event) => {
-    if (!event.target.closest(".word-field") && !event.target.closest(".suggestions")) {
+    if (!event.target.closest("#wordInput") && !event.target.closest(".suggestions")) {
       renderSuggestions(false);
     }
   });
   classSelect.addEventListener("change", syncForSelectionChange);
   subjectSelect.addEventListener("change", syncForSelectionChange);
   speakButton.addEventListener("click", speakWord);
-  clearHistoryButton.addEventListener("click", clearHistory);
+  clearHistoryButton.addEventListener("click", confirmClearHistory);
+  pasteButton.addEventListener("click", pasteFromClipboard);
+  randomWordButton.addEventListener("click", showRandomWord);
+  zoomOutButton.addEventListener("click", () => changeZoom(-ZOOM_STEP));
+  zoomInButton.addEventListener("click", () => changeZoom(ZOOM_STEP));
 }
 
 boot();

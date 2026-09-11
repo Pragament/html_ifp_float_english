@@ -9,52 +9,37 @@
   <body>
     <main class="app" aria-labelledby="app-title">
       <header class="topbar">
-        <h1 id="app-title">Word Helper</h1>
-        <button id="clearHistoryButton" class="icon-button" type="button" title="Clear recent words" aria-label="Clear recent words">
-          <span aria-hidden="true">x</span>
-        </button>
+        <h1 id="app-title">English Tutor</h1>
+        <div class="toolbar" aria-label="Page tools">
+          <button id="pasteButton" class="icon-button" type="button" title="Paste from clipboard" aria-label="Paste from clipboard">p</button>
+          <button id="randomWordButton" class="icon-button" type="button" title="New random word" aria-label="New random word">r</button>
+          <button id="zoomOutButton" class="icon-button" type="button" title="Zoom out" aria-label="Zoom out">-</button>
+          <button id="zoomInButton" class="icon-button" type="button" title="Zoom in" aria-label="Zoom in">+</button>
+          <button id="clearHistoryButton" class="icon-button" type="button" title="Clear recent words" aria-label="Clear recent words">x</button>
+        </div>
       </header>
 
       <section class="controls" aria-label="Word controls">
-        <label>
-          <span>Class</span>
-          <select id="classSelect"></select>
-        </label>
-
-        <label>
-          <span>Subject</span>
-          <select id="subjectSelect">
-            <option>English</option>
-            <option>Math</option>
-            <option>Science</option>
-            <option>Social</option>
-          </select>
-        </label>
+        <select id="classSelect" aria-label="Class"></select>
+        <select id="subjectSelect" aria-label="Subject">
+          <option>English</option>
+          <option>Math</option>
+          <option>Science</option>
+          <option>Social</option>
+        </select>
+        <input id="wordInput" type="text" autocomplete="off" spellcheck="false" placeholder="Word" aria-label="Word" aria-describedby="lookupStatus">
       </section>
-
-      <label class="word-field">
-        <span>Word</span>
-        <input id="wordInput" type="text" autocomplete="off" spellcheck="false" placeholder="Choose or type a word" aria-describedby="lookupStatus">
-      </label>
 
       <div id="suggestions" class="suggestions" role="listbox" aria-label="Suggestions"></div>
 
       <section id="wordCard" class="word-card" aria-live="polite">
-        <div>
-          <p class="meta">Selected Word</p>
-          <h2 id="selectedWord">-</h2>
+        <div class="word-row">
+          <output id="selectedWord">Selected Word</output>
+          <output id="wordSpelling">Spelling</output>
+          <output id="wordPronunciation">Easy Pronunciation</output>
         </div>
 
-        <dl>
-          <div>
-            <dt>Spelling</dt>
-            <dd id="wordSpelling">-</dd>
-          </div>
-          <div>
-            <dt>Easy Pronunciation</dt>
-            <dd id="wordPronunciation">-</dd>
-          </div>
-        </dl>
+        <p id="exampleSentence" class="sentence">Example sentence</p>
 
         <button id="speakButton" class="speak-button" type="button" disabled>
           <svg aria-hidden="true" viewBox="0 0 24 24">
