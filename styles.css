@@ -137,7 +137,7 @@ button:focus-visible {
 
 .ai-controls {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   gap: 6px;
   margin-top: 6px;
 }

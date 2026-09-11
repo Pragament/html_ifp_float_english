@@ -15,6 +15,7 @@ const zoomInButton = document.querySelector("#zoomInButton");
 const lookupStatus = document.querySelector("#lookupStatus");
 const webllmModelSelect = document.querySelector("#webllmModelSelect");
 const loadWebllmButton = document.querySelector("#loadWebllmButton");
+const submitWebllmButton = document.querySelector("#submitWebllmButton");
 const webllmStatus = document.querySelector("#webllmStatus");
 
 const HISTORY_LIMIT = 12;
@@ -30,7 +31,6 @@ const WEBLLM_MODELS = [
   "gemma3-1b-it-q4f16_1-MLC",
   "Llama-3.2-3B-Instruct-q4f16_1-MLC"
 ];
-const AI_LOOKUP_DELAY_MS = 650;
 const MIN_ZOOM = 0.8;
 const MAX_ZOOM = 1.4;
 const ZOOM_STEP = 0.1;
@@ -43,7 +43,7 @@ let webllmEnginePromise = null;
 let loadedWebllmModel = "";
 let webllmLoadToken = 0;
 let aiLookupToken = 0;
-let aiLookupTimer = null;
+let pendingWebLLMWord = "";
 
 function historyKey() {
   return `${STORE_PREFIX}:${classSelect.value}:${subjectSelect.value}`;
@@ -96,7 +96,7 @@ function confirmClearHistory() {
 }
 
 function normalizePronunciation(value) {
-  return value.replace(/\*\*/g, "");
+  return value.replace(/\*\*/g, "").trim();
 }
 
 function spellingFor(entry) {
@@ -109,6 +109,39 @@ function pronunciationFor(entry) {
 
 function sentenceFor(entry) {
   return entry["Example Sentence"] || entry.exampleSentence || "-";
+}
+
+function lettersOnly(value) {
+  return value.toLowerCase().replace(/[^a-z]/g, "");
+}
+
+function hasSameLettersAsWord(value, word) {
+  return lettersOnly(value) === lettersOnly(word);
+}
+
+function fallbackSpelling(word) {
+  return word.trim() || "-";
+}
+
+function fallbackSentence(word) {
+  return `I can use the word ${word.trim() || "it"} in a sentence.`;
+}
+
+function sanitizeGeneratedEntry(entry, word) {
+  const cleanWord = word.trim();
+  const spelling = entry.Spelling || entry.spelling || "";
+  const pronunciation = entry["Easy Pronunciation"] || entry.easyPronunciation || "";
+  const sentence = entry["Example Sentence"] || entry.exampleSentence || "";
+  const safeSentence = sentence.toLowerCase().includes(cleanWord.toLowerCase())
+    ? sentence.trim()
+    : fallbackSentence(cleanWord);
+
+  return {
+    word: cleanWord,
+    Spelling: hasSameLettersAsWord(spelling, cleanWord) ? spelling.trim() : fallbackSpelling(cleanWord),
+    "Easy Pronunciation": normalizePronunciation(pronunciation || cleanWord, cleanWord),
+    "Example Sentence": safeSentence
+  };
 }
 
 function currentWords() {
@@ -134,7 +167,7 @@ function showWord(entry, options = {}) {
   activeWord = entry.word;
   selectedWord.textContent = entry.word;
   wordSpelling.textContent = spellingFor(entry);
-  wordPronunciation.textContent = normalizePronunciation(pronunciationFor(entry));
+  wordPronunciation.textContent = normalizePronunciation(pronunciationFor(entry), entry.word);
   exampleSentence.textContent = sentenceFor(entry);
   speakButton.disabled = false;
 
@@ -168,19 +201,13 @@ function showTypedWord(value, message, isWarning = false) {
 
 function showLoadingAIWord(value) {
   activeWord = value.trim();
+  pendingWebLLMWord = activeWord;
   selectedWord.textContent = activeWord;
   wordSpelling.textContent = "Loading...";
   wordPronunciation.textContent = "Loading...";
   exampleSentence.textContent = "Asking WebLLM for an example sentence...";
   speakButton.disabled = false;
   setStatus(`No JSON entry found for "${activeWord}". Using WebLLM.`);
-}
-
-function clearPendingAILookup() {
-  if (aiLookupTimer) {
-    window.clearTimeout(aiLookupTimer);
-    aiLookupTimer = null;
-  }
 }
 
 function suggestionButton(word, source) {
@@ -219,8 +246,7 @@ function renderSuggestions(forceOpen = true) {
 function lookupWord() {
   const value = wordInput.value.trim();
   const entry = findWord(value);
-  const lookupToken = ++aiLookupToken;
-  clearPendingAILookup();
+  ++aiLookupToken;
 
   if (entry) {
     showWord(entry);
@@ -233,10 +259,8 @@ function lookupWord() {
   }
 
   saveSettings();
-  showTypedWord(value, `No JSON entry found for "${value}". WebLLM will try it.`, true);
-  aiLookupTimer = window.setTimeout(() => {
-    generateWebLLMWord(value, lookupToken);
-  }, AI_LOOKUP_DELAY_MS);
+  pendingWebLLMWord = value;
+  showTypedWord(value, `No JSON entry found for "${value}". Press WebLLM Submit to generate it.`, true);
 }
 
 function savedWebLLMModel() {
@@ -334,57 +358,134 @@ function parseJSONFromText(text) {
   }
 }
 
+function parseLabeledEntryFromText(text) {
+  const entry = {};
+  const keyMap = {
+    word: "word",
+    spelling: "Spelling",
+    "easy pronunciation": "Easy Pronunciation",
+    "example sentence": "Example Sentence"
+  };
+
+  text.split(/\r?\n/).forEach((line) => {
+    const match = line.match(/^([^:]+):\s*(.+)$/);
+    if (!match) return;
+
+    const label = match[1].replace(/\*/g, "").trim().toLowerCase();
+    const value = match[2].replace(/\*\*/g, "").trim().replace(/^["']|["']$/g, "");
+    const key = keyMap[label];
+    if (key) entry[key] = value;
+  });
+
+  return Object.keys(entry).length ? entry : null;
+}
+
+function parseWebLLMEntryFromText(text) {
+  return parseJSONFromText(text) || parseLabeledEntryFromText(text);
+}
+
 async function generateWebLLMWord(value, lookupToken) {
   showLoadingAIWord(value);
+  let debugRequest = null;
+  let debugResponse = null;
+  let debugContent = "";
 
   try {
     const engine = await loadWebLLMModel();
     if (lookupToken !== aiLookupToken) return;
 
-    const response = await engine.chat.completions.create({
-      messages: [
-        {
-          role: "system",
-          content:
-            "You help young English learners. Return only valid JSON with keys word, Spelling, Easy Pronunciation, and Example Sentence. Keep the sentence simple."
-        },
-        {
-          role: "user",
-          content: `Create a short learner-friendly entry for this English word: ${value}`
-        }
-      ],
+    const messages = [
+      {
+        role: "system",
+        content:
+          "You help young English learners. Return only valid JSON with keys word, Spelling, Easy Pronunciation, and Example Sentence. Keep the sentence simple."
+      },
+      {
+        role: "user",
+        content: `Create a short learner-friendly entry for this English word: ${value}`
+      }
+    ];
+    const request = {
+      messages,
       temperature: 0.2,
       max_tokens: 120
+    };
+    debugRequest = request;
+
+    console.log("[WebLLM] word generation request", {
+      word: value,
+      model: loadedWebllmModel,
+      request
     });
+
+    const response = await engine.chat.completions.create({
+      messages,
+      temperature: request.temperature,
+      max_tokens: request.max_tokens
+    });
+    debugResponse = response;
 
     if (lookupToken !== aiLookupToken) return;
 
     const content = response.choices?.[0]?.message?.content || "";
-    const aiEntry = parseJSONFromText(content);
+    debugContent = content;
+    const aiEntry = parseWebLLMEntryFromText(content);
+
+    console.log("[WebLLM] word generation response", {
+      word: value,
+      model: loadedWebllmModel,
+      rawResponse: response,
+      content,
+      parsedEntry: aiEntry
+    });
 
     if (!aiEntry) {
-      throw new Error("WebLLM returned non-JSON content.");
+      throw new Error("WebLLM returned content that could not be parsed.");
     }
 
-    showWord(
-      {
-        word: value,
-        Spelling: aiEntry.Spelling || aiEntry.spelling || value,
-        "Easy Pronunciation":
-          aiEntry["Easy Pronunciation"] || aiEntry.easyPronunciation || value.toLowerCase(),
-        "Example Sentence":
-          aiEntry["Example Sentence"] ||
-          aiEntry.exampleSentence ||
-          `I can use ${value} in a sentence.`
-      },
-      {
-        status: `Generated by WebLLM because "${value}" is not in words.json.`
-      }
-    );
-  } catch {
+    const sanitizedEntry = sanitizeGeneratedEntry(aiEntry, value);
+    console.log("[WebLLM] sanitized word entry", {
+      word: value,
+      model: loadedWebllmModel,
+      parsedEntry: aiEntry,
+      sanitizedEntry
+    });
+
+    showWord(sanitizedEntry, {
+      status: `Generated by WebLLM because "${value}" is not in words.json.`
+    });
+    pendingWebLLMWord = "";
+  } catch (error) {
     if (lookupToken !== aiLookupToken) return;
-    showTypedWord(value, `No JSON entry found for "${value}" and WebLLM is not ready.`, true);
+    pendingWebLLMWord = value;
+    console.error("[WebLLM] word generation failed", {
+      word: value,
+      model: loadedWebllmModel,
+      request: debugRequest,
+      rawResponse: debugResponse,
+      content: debugContent,
+      error
+    });
+    showTypedWord(value, `No JSON entry found for "${value}". WebLLM could not generate it yet.`, true);
   }
+}
+
+function submitWebLLMLookup() {
+  const value = wordInput.value.trim();
+
+  if (!value) {
+    resetWord("Type a word before using WebLLM.");
+    return;
+  }
+
+  const entry = findWord(value);
+  if (entry) {
+    showWord(entry);
+    return;
+  }
+
+  saveSettings();
+  generateWebLLMWord(value, ++aiLookupToken);
 }
 
 function todayKey() {
@@ -578,6 +679,7 @@ async function boot() {
     saveSelectedWebLLMModel();
     loadWebLLMModel().catch(() => {});
   });
+  submitWebllmButton.addEventListener("click", submitWebLLMLookup);
   zoomOutButton.addEventListener("click", () => changeZoom(-ZOOM_STEP));
   zoomInButton.addEventListener("click", () => changeZoom(ZOOM_STEP));
   loadWebLLMModel().catch(() => {});
