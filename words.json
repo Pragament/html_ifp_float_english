@@ -64,6 +64,7 @@
   {"word": "Bad", "Spelling": "Bad", "Easy Pronunciation": "bad", "Example Sentence": "That is a bad idea."},
   {"word": "Beautiful", "Spelling": "Beau-ti-ful", "Easy Pronunciation": "BYOO-ti-ful", "Example Sentence": "The sunset is beautiful."},
   {"word": "Wonderful", "Spelling": "Won-der-ful", "Easy Pronunciation": "WUN-der-ful", "Example Sentence": "We had a wonderful time."},
+  {"word": "Excited", "Spelling": "Ex-cit-ed", "Easy Pronunciation": "ik-SAI-tid", "Example Sentence": "I am excited for the trip."},
   {"word": "Brave", "Spelling": "Brave", "Easy Pronunciation": "brayv", "Example Sentence": "The firefighter is brave."},
   {"word": "Courage", "Spelling": "Cour-age", "Easy Pronunciation": "KUR-ij", "Example Sentence": "She showed great courage."},
   {"word": "Freedom", "Spelling": "Free-dom", "Easy Pronunciation": "FREE-dum", "Example Sentence": "People celebrate their freedom."},
@@ -296,5 +297,822 @@
   {"word": "Build", "Spelling": "Build", "Easy Pronunciation": "bild", "Example Sentence": "We build houses with bricks."},
   {"word": "Care", "Spelling": "Care", "Easy Pronunciation": "kair", "Example Sentence": "Take care of your health."},
   {"word": "Share", "Spelling": "Share", "Easy Pronunciation": "shair", "Example Sentence": "Share your food with your friend."},
-  {"word": "Love", "Spelling": "Love", "Easy Pronunciation": "luv", "Example Sentence": "I love my family."}
+  {"word": "Love", "Spelling": "Love", "Easy Pronunciation": "luv", "Example Sentence": "I love my family."},
+  {"word": "Happiness", "Spelling": "Hap-pi-ness", "Easy Pronunciation": "HAP-pi-ness", "Example Sentence": "Happiness is a state of mind."},
+  {"word": "Friendship", "Spelling": "Friend-ship", "Easy Pronunciation": "FREND-ship", "Example Sentence": "Friendship is important in life."},
+  {"word": "Society", "Spelling": "So-ci-e-ty", "Easy Pronunciation": "so-SYE-i-tee", "Example Sentence": "We should contribute to society."},
+  {"word": "Health", "Spelling": "Health", "Easy Pronunciation": "hulth", "Example Sentence": "Healthy living is important."},
+  {"word": "Fitness", "Spelling": "Fit-ness", "Easy Pronunciation": "FIT-ness", "Example Sentence": "Regular exercise improves fitness."},
+  {"word": "Nutrition", "Spelling": "Nu-tri-tion", "Easy Pronunciation": "noo-TRISH-un", "Example Sentence": "Good nutrition is essential for health."},
+  {"word": "Exercise", "Spelling": "Ex-er-cise", "Easy Pronunciation": "EK-ser-syz", "Example Sentence": "We should exercise daily."},
+  {"word": "Calm", "Spelling": "Calm", "Easy Pronunciation": "kalm", "Example Sentence": "A calm mind is important."},
+  {"word": "Joy", "Spelling": "Joy", "Easy Pronunciation": "joy", "Example Sentence": "Joy is a feeling of happiness."},
+  {"word": "Hope", "Spelling": "Hope", "Easy Pronunciation": "hope", "Example Sentence": "Hope keeps us going."},
+  {"word": "Faith", "Spelling": "Faith", "Easy Pronunciation": "fayth", "Example Sentence": "Faith gives us strength."},
+  {"word": "Mindfulness", "Spelling": "Mind-ful-ness", "Easy Pronunciation": "MIND-ful-ness", "Example Sentence": "Mindfulness helps us stay present."},
+  {"word": "Resilience", "Spelling": "Re-sil-ience", "Easy Pronunciation": "re-SIL-i-ence", "Example Sentence": "Resilience helps us overcome challenges."},
+  {"word": "Determination", "Spelling": "De-ter-mi-na-tion", "Easy Pronunciation": "dee-tur-mi-NAY-shun", "Example Sentence": "Determination leads to success."},
+  {"word": "Responsibility", "Spelling": "Re-spon-si-bil-i-ty", "Easy Pronunciation": "ree-SPON-si-BIL-i-tee", "Example Sentence": "Responsibility means being accountable for our actions."},
+  {"word": "Collaboration", "Spelling": "Col-lab-o-ra-tion", "Easy Pronunciation": "kol-a-buh-RAY-shun", "Example Sentence": "Collaboration is working jointly with others."},
+  {"word": "Inspirational", "Spelling": "In-spi-ra-tion-a-l", "Easy Pronunciation": "in-SPI-ree-TAY-shun-a-L", "Example Sentence": "Inspirational quotes inspire and motivate people."},
+  {"word": "Motivation", "Spelling": "Mo-ti-va-tion", "Easy Pronunciation": "mo-ti-VAY-shun", "Example Sentence": "Motivation is the drive to achieve goals."},
+  {"word": "Self-discipline", "Spelling": "Self-dis-ci-pline", "Easy Pronunciation": "self-DIS-i-plin", "Example Sentence": "Self-discipline is controlling one's actions and behavior."},
+  {"word": "Time-management", "Spelling": "Time-man-age-ment", "Easy Pronunciation": "time-MAN-ij-ment", "Example Sentence": "Time management is organizing and planning how to divide your time."},
+  {"word": "Goal-setting", "Spelling": "Goal-set-ting", "Easy Pronunciation": "goal-SET-ing", "Example Sentence": "Goal setting is the process of identifying what you want to achieve."},
+  {"word": "Problem-solving", "Spelling": "Prob-lem-solv-ing", "Easy Pronunciation": "PROB-lum-SOLV-ing", "Example Sentence": "Problem solving is finding solutions to difficult or complex issues."},
+  {"word": "Critical-thinking", "Spelling": "Crit-i-cal-think-ing", "Easy Pronunciation": "KRIT-i-kal-THINK-ing", "Example Sentence": "Critical thinking is analyzing and evaluating information to make reasoned judgments."},
+  {"word": "Decision-making", "Spelling": "De-ci-sion-mak-ing", "Easy Pronunciation": "dee-SIZH-un-MAYK-ing", "Example Sentence": "Decision making is the process of making choices by identifying a decision, gathering information, and assessing alternative resolutions."},
+  {"word": "Adaptability", "Spelling": "A-dap-ta-bil-i-ty", "Easy Pronunciation": "a-dap-TAY-bil-i-tee", "Example Sentence": "Adaptability is the ability to adjust to new conditions."},
+  {"word": "Self-awareness", "Spelling": "Self-a-ware-ness", "Easy Pronunciation": "self-a-WAIR-ness", "Example Sentence": "Self-awareness is the conscious knowledge of one's own character, feelings, motives, and desires."},
+  {"word": "Emotional-intelligence", "Spelling": "E-mo-tion-al-in-tel-li-gence", "Easy Pronunciation": "ee-mo-SHUN-al-in-TEL-i-jens", "Example Sentence": "Emotional intelligence is the ability to understand and manage your own emotions, and those of the people around you."},
+  {"word": "Self-care", "Spelling": "Self-care", "Easy Pronunciation": "self-KAIR", "Example Sentence": "Self-care is the practice of taking action to preserve or improve one's own health."},
+  {"word": "Well-being", "Spelling": "Well-be-ing", "Easy Pronunciation": "wel-BEE-ing", "Example Sentence": "Well-being is the state of being comfortable, healthy, or happy."},
+  {"word": "Contentment", "Spelling": "Con-tent-ment", "Easy Pronunciation": "kon-TENT-ment", "Example Sentence": "Contentment is a state of satisfaction and ease."},
+  {"word": "Fulfillment", "Spelling": "Ful-fill-ment", "Easy Pronunciation": "ful-FILL-ment", "Example Sentence": "Fulfillment is the achievement of something desired, promised, or predicted."},
+  {"word": "Idiom", "Spelling": "Id-i-om", "Easy Pronunciation": "ID-ee-um", "Example Sentence": "An idiom is a phrase with a figurative meaning."},
+  {"word": "Phrase", "Spelling": "Phrase", "Easy Pronunciation": "frayz", "Example Sentence": "A phrase can be literal or figurative."},
+  {"word": "Proverb", "Spelling": "Prov-erb", "Easy Pronunciation": "PROV-urb", "Example Sentence": "A proverb gives wise advice."},
+  {"word": "Saying", "Spelling": "Say-ing", "Easy Pronunciation": "SAY-ing", "Example Sentence": "An old saying often teaches a lesson."},
+  {"word": "Expression", "Spelling": "Ex-pres-sion", "Easy Pronunciation": "ek-SPRESH-un", "Example Sentence": "Learn a common expression in English."},
+  {"word": "Metaphor", "Spelling": "Met-a-phor", "Easy Pronunciation": "MET-a-for", "Example Sentence": "A metaphor compares two things without like or as."},
+  {"word": "Simile", "Spelling": "Sim-i-le", "Easy Pronunciation": "SIM-i-lee", "Example Sentence": "A simile uses like or as to compare."},
+  {"word": "Ace", "Spelling": "Ace", "Easy Pronunciation": "ays", "Example Sentence": "He has an ace up his sleeve."},
+  {"word": "Arm", "Spelling": "Arm", "Easy Pronunciation": "arm", "Example Sentence": "They welcomed us with open arms."},
+  {"word": "Back", "Spelling": "Back", "Easy Pronunciation": "bak", "Example Sentence": "Don't stab me in the back."},
+  {"word": "Bean", "Spelling": "Bean", "Easy Pronunciation": "been", "Example Sentence": "Don't spill the beans."},
+  {"word": "Bear", "Spelling": "Bear", "Easy Pronunciation": "bair", "Example Sentence": "Please bear with me for a moment."},
+  {"word": "Bed", "Spelling": "Bed", "Easy Pronunciation": "bed", "Example Sentence": "You made your bed, now lie in it."},
+  {"word": "Bell", "Spelling": "Bell", "Easy Pronunciation": "bel", "Example Sentence": "That name rings a bell."},
+  {"word": "Belt", "Spelling": "Belt", "Easy Pronunciation": "belt", "Example Sentence": "That comment was below the belt."},
+  {"word": "Bite", "Spelling": "Bite", "Easy Pronunciation": "bite", "Example Sentence": "Don't bite off more than you can chew."},
+  {"word": "Blood", "Spelling": "Blood", "Easy Pronunciation": "blud", "Example Sentence": "Blood is thicker than water."},
+  {"word": "Bone", "Spelling": "Bone", "Easy Pronunciation": "bohn", "Example Sentence": "I have a bone to pick with you."},
+  {"word": "Brain", "Spelling": "Brain", "Easy Pronunciation": "brayn", "Example Sentence": "She is the brains of the operation."},
+  {"word": "Bread", "Spelling": "Bread", "Easy Pronunciation": "bred", "Example Sentence": "Teaching is his bread and butter."},
+  {"word": "Breeze", "Spelling": "Breeze", "Easy Pronunciation": "breez", "Example Sentence": "The test was a breeze."},
+  {"word": "Brick", "Spelling": "Brick", "Easy Pronunciation": "brik", "Example Sentence": "We hit a brick wall with the project."},
+  {"word": "Cake", "Spelling": "Cake", "Easy Pronunciation": "kayk", "Example Sentence": "That puzzle was a piece of cake."},
+  {"word": "Candle", "Spelling": "Can-dle", "Easy Pronunciation": "KAN-dul", "Example Sentence": "Don't burn the candle at both ends."},
+  {"word": "Card", "Spelling": "Card", "Easy Pronunciation": "kard", "Example Sentence": "He put all his cards on the table."},
+  {"word": "Carrot", "Spelling": "Car-rot", "Easy Pronunciation": "KAIR-ut", "Example Sentence": "They use a carrot and stick approach."},
+  {"word": "Cash", "Spelling": "Cash", "Easy Pronunciation": "kash", "Example Sentence": "That product is a cash cow."},
+  {"word": "Castle", "Spelling": "Cas-tle", "Easy Pronunciation": "KAS-ul", "Example Sentence": "A man's home is his castle."},
+  {"word": "Chain", "Spelling": "Chain", "Easy Pronunciation": "chayn", "Example Sentence": "The event started a chain reaction."},
+  {"word": "Cheese", "Spelling": "Cheese", "Easy Pronunciation": "cheez", "Example Sentence": "Say cheese for the camera!"},
+  {"word": "Clock", "Spelling": "Clock", "Easy Pronunciation": "klok", "Example Sentence": "Stop watching the clock and focus."},
+  {"word": "Cloud", "Spelling": "Cloud", "Easy Pronunciation": "klowd", "Example Sentence": "Every cloud has a silver lining."},
+  {"word": "Coin", "Spelling": "Coin", "Easy Pronunciation": "koyn", "Example Sentence": "Every coin has two sides."},
+  {"word": "Corner", "Spelling": "Cor-ner", "Easy Pronunciation": "KOR-nur", "Example Sentence": "Don't cut corners on safety."},
+  {"word": "Cow", "Spelling": "Cow", "Easy Pronunciation": "kow", "Example Sentence": "Don't have a cow over a small mistake."},
+  {"word": "Crown", "Spelling": "Crown", "Easy Pronunciation": "krown", "Example Sentence": "That invention is the jewel in the crown."},
+  {"word": "Cup", "Spelling": "Cup", "Easy Pronunciation": "kup", "Example Sentence": "Horror movies are not my cup of tea."},
+  {"word": "Door", "Spelling": "Door", "Easy Pronunciation": "dor", "Example Sentence": "When one door closes, another opens."},
+  {"word": "Duck", "Spelling": "Duck", "Easy Pronunciation": "duk", "Example Sentence": "She took to swimming like a duck to water."},
+  {"word": "Dust", "Spelling": "Dust", "Easy Pronunciation": "dust", "Example Sentence": "Let the dust settle before you decide."},
+  {"word": "Ear", "Spelling": "Ear", "Easy Pronunciation": "eer", "Example Sentence": "We'll play it by ear."},
+  {"word": "Egg", "Spelling": "Egg", "Easy Pronunciation": "eg", "Example Sentence": "Don't put all your eggs in one basket."},
+  {"word": "Eye", "Spelling": "Eye", "Easy Pronunciation": "eye", "Example Sentence": "Keep an eye on the children."},
+  {"word": "Face", "Spelling": "Face", "Easy Pronunciation": "fays", "Example Sentence": "He had to face the music."},
+  {"word": "Feather", "Spelling": "Feath-er", "Easy Pronunciation": "FETH-ur", "Example Sentence": "Birds of a feather flock together."},
+  {"word": "Fence", "Spelling": "Fence", "Easy Pronunciation": "fens", "Example Sentence": "Don't sit on the fence; choose a side."},
+  {"word": "Finger", "Spelling": "Fin-ger", "Easy Pronunciation": "FING-gur", "Example Sentence": "Cross your fingers for good luck."},
+  {"word": "Fire", "Spelling": "Fire", "Easy Pronunciation": "fyre", "Example Sentence": "Don't play with fire."},
+  {"word": "Flag", "Spelling": "Flag", "Easy Pronunciation": "flag", "Example Sentence": "They waved the white flag and surrendered."},
+  {"word": "Floor", "Spelling": "Floor", "Easy Pronunciation": "flor", "Example Sentence": "The floor is yours; please speak."},
+  {"word": "Fly", "Spelling": "Fly", "Easy Pronunciation": "fly", "Example Sentence": "I'd like to be a fly on the wall."},
+  {"word": "Foot", "Spelling": "Foot", "Easy Pronunciation": "fut", "Example Sentence": "We got off on the wrong foot."},
+  {"word": "Fork", "Spelling": "Fork", "Easy Pronunciation": "fork", "Example Sentence": "He spoke with a forked tongue."},
+  {"word": "Frog", "Spelling": "Frog", "Easy Pronunciation": "frog", "Example Sentence": "I have a frog in my throat."},
+  {"word": "Glass", "Spelling": "Glass", "Easy Pronunciation": "glas", "Example Sentence": "People in glass houses shouldn't throw stones."},
+  {"word": "Goat", "Spelling": "Goat", "Easy Pronunciation": "goht", "Example Sentence": "That noise really gets my goat."},
+  {"word": "Gold", "Spelling": "Gold", "Easy Pronunciation": "gohld", "Example Sentence": "All that glitters is not gold."},
+  {"word": "Goose", "Spelling": "Goose", "Easy Pronunciation": "goos", "Example Sentence": "Don't kill the goose that lays the golden eggs."},
+  {"word": "Grass", "Spelling": "Grass", "Easy Pronunciation": "gras", "Example Sentence": "The grass is always greener on the other side."},
+  {"word": "Ground", "Spelling": "Ground", "Easy Pronunciation": "grownd", "Example Sentence": "The new research breaks ground."},
+  {"word": "Hair", "Spelling": "Hair", "Easy Pronunciation": "hair", "Example Sentence": "Let your hair down and relax."},
+  {"word": "Hand", "Spelling": "Hand", "Easy Pronunciation": "hand", "Example Sentence": "Can you give me a hand?"},
+  {"word": "Hat", "Spelling": "Hat", "Easy Pronunciation": "hat", "Example Sentence": "Keep this news under your hat."},
+  {"word": "Head", "Spelling": "Head", "Easy Pronunciation": "hed", "Example Sentence": "You hit the nail on the head."},
+  {"word": "Heart", "Spelling": "Heart", "Easy Pronunciation": "hart", "Example Sentence": "Follow your heart."},
+  {"word": "Hill", "Spelling": "Hill", "Easy Pronunciation": "hil", "Example Sentence": "He is over the hill as an athlete."},
+  {"word": "Hole", "Spelling": "Hole", "Easy Pronunciation": "hohl", "Example Sentence": "Money burns a hole in his pocket."},
+  {"word": "Hook", "Spelling": "Hook", "Easy Pronunciation": "huk", "Example Sentence": "The phone was left off the hook."},
+  {"word": "Horse", "Spelling": "Horse", "Easy Pronunciation": "hors", "Example Sentence": "Don't look a gift horse in the mouth."},
+  {"word": "Ice", "Spelling": "Ice", "Easy Pronunciation": "eyess", "Example Sentence": "A joke can break the ice."},
+  {"word": "Iron", "Spelling": "I-ron", "Easy Pronunciation": "EYE-urn", "Example Sentence": "Strike while the iron is hot."},
+  {"word": "Key", "Spelling": "Key", "Easy Pronunciation": "kee", "Example Sentence": "Practice is the key to success."},
+  {"word": "Knee", "Spelling": "Knee", "Easy Pronunciation": "nee", "Example Sentence": "He refused to bend the knee."},
+  {"word": "Knife", "Spelling": "Knife", "Easy Pronunciation": "nyfe", "Example Sentence": "You could cut the tension with a knife."},
+  {"word": "Knot", "Spelling": "Knot", "Easy Pronunciation": "not", "Example Sentence": "They decided to tie the knot."},
+  {"word": "Ladder", "Spelling": "Lad-der", "Easy Pronunciation": "LAD-ur", "Example Sentence": "She climbed the corporate ladder quickly."},
+  {"word": "Leaf", "Spelling": "Leaf", "Easy Pronunciation": "leef", "Example Sentence": "He turned over a new leaf."},
+  {"word": "Leg", "Spelling": "Leg", "Easy Pronunciation": "leg", "Example Sentence": "I was just pulling your leg."},
+  {"word": "Letter", "Spelling": "Let-ter", "Easy Pronunciation": "LET-ur", "Example Sentence": "Follow the instructions to the letter."},
+  {"word": "Line", "Spelling": "Line", "Easy Pronunciation": "lyne", "Example Sentence": "I draw the line at cheating."},
+  {"word": "Lion", "Spelling": "Li-on", "Easy Pronunciation": "LYE-un", "Example Sentence": "She took the lion's share of the profit."},
+  {"word": "Lip", "Spelling": "Lip", "Easy Pronunciation": "lip", "Example Sentence": "He bit his lip and stayed silent."},
+  {"word": "Lock", "Spelling": "Lock", "Easy Pronunciation": "lok", "Example Sentence": "They sold everything lock, stock, and barrel."},
+  {"word": "Map", "Spelling": "Map", "Easy Pronunciation": "map", "Example Sentence": "The discovery put the town on the map."},
+  {"word": "Meat", "Spelling": "Meat", "Easy Pronunciation": "meet", "Example Sentence": "This is the meat and potatoes of the plan."},
+  {"word": "Milk", "Spelling": "Milk", "Easy Pronunciation": "milk", "Example Sentence": "Don't cry over spilt milk."},
+  {"word": "Mirror", "Spelling": "Mir-ror", "Easy Pronunciation": "MEER-ur", "Example Sentence": "The report is a mirror of the company's health."},
+  {"word": "Money", "Spelling": "Mon-ey", "Easy Pronunciation": "MUN-ee", "Example Sentence": "Money doesn't grow on trees."},
+  {"word": "Monkey", "Spelling": "Mon-key", "Easy Pronunciation": "MUNG-kee", "Example Sentence": "Monkey see, monkey do."},
+  {"word": "Mouse", "Spelling": "Mouse", "Easy Pronunciation": "mows", "Example Sentence": "She was quiet as a mouse."},
+  {"word": "Mouth", "Spelling": "Mouth", "Easy Pronunciation": "mowth", "Example Sentence": "Put your money where your mouth is."},
+  {"word": "Nail", "Spelling": "Nail", "Easy Pronunciation": "nayl", "Example Sentence": "You hit the nail on the head."},
+  {"word": "Neck", "Spelling": "Neck", "Easy Pronunciation": "nek", "Example Sentence": "The two runners were neck and neck."},
+  {"word": "Needle", "Spelling": "Nee-dle", "Easy Pronunciation": "NEE-dul", "Example Sentence": "Finding it was like a needle in a haystack."},
+  {"word": "Nest", "Spelling": "Nest", "Easy Pronunciation": "nest", "Example Sentence": "They feathered their nest for retirement."},
+  {"word": "Nose", "Spelling": "Nose", "Easy Pronunciation": "nohz", "Example Sentence": "Keep your nose clean."},
+  {"word": "Nut", "Spelling": "Nut", "Easy Pronunciation": "nut", "Example Sentence": "In a nutshell, the plan failed."},
+  {"word": "Oil", "Spelling": "Oil", "Easy Pronunciation": "oyl", "Example Sentence": "A kind word can oil the wheels."},
+  {"word": "Onion", "Spelling": "On-ion", "Easy Pronunciation": "UN-yun", "Example Sentence": "She knows her onions when it comes to cooking."},
+  {"word": "Oven", "Spelling": "Ov-en", "Easy Pronunciation": "UV-un", "Example Sentence": "She has a bun in the oven."},
+  {"word": "Owl", "Spelling": "Owl", "Easy Pronunciation": "owl", "Example Sentence": "He is a night owl."},
+  {"word": "Pan", "Spelling": "Pan", "Easy Pronunciation": "pan", "Example Sentence": "We went out of the frying pan into the fire."},
+  {"word": "Path", "Spelling": "Path", "Easy Pronunciation": "path", "Example Sentence": "They took the path of least resistance."},
+  {"word": "Pear", "Spelling": "Pear", "Easy Pronunciation": "pair", "Example Sentence": "The plan went pear-shaped."},
+  {"word": "Pepper", "Spelling": "Pep-per", "Easy Pronunciation": "PEP-ur", "Example Sentence": "The recipe needs salt and pepper."},
+  {"word": "Pig", "Spelling": "Pig", "Easy Pronunciation": "pig", "Example Sentence": "I felt like a guinea pig in the experiment."},
+  {"word": "Pin", "Spelling": "Pin", "Easy Pronunciation": "pin", "Example Sentence": "It is hard to pin down the exact cause."},
+  {"word": "Pipe", "Spelling": "Pipe", "Easy Pronunciation": "pype", "Example Sentence": "His idea is just a pipe dream."},
+  {"word": "Plate", "Spelling": "Plate", "Easy Pronunciation": "playt", "Example Sentence": "I have a lot on my plate right now."},
+  {"word": "Pocket", "Spelling": "Pock-et", "Easy Pronunciation": "POK-it", "Example Sentence": "I paid out of pocket for the repair."},
+  {"word": "Pot", "Spelling": "Pot", "Easy Pronunciation": "pot", "Example Sentence": "That is the pot calling the kettle black."},
+  {"word": "Potato", "Spelling": "Po-ta-to", "Easy Pronunciation": "po-TAY-toh", "Example Sentence": "The issue became a hot potato."},
+  {"word": "Queen", "Spelling": "Queen", "Easy Pronunciation": "kween", "Example Sentence": "She is such a drama queen."},
+  {"word": "Rabbit", "Spelling": "Rab-bit", "Easy Pronunciation": "RAB-it", "Example Sentence": "He pulled a rabbit out of a hat."},
+  {"word": "Ring", "Spelling": "Ring", "Easy Pronunciation": "ring", "Example Sentence": "That story rings a bell."},
+  {"word": "Rock", "Spelling": "Rock", "Easy Pronunciation": "rok", "Example Sentence": "We are between a rock and a hard place."},
+  {"word": "Roof", "Spelling": "Roof", "Easy Pronunciation": "roof", "Example Sentence": "Dad will hit the roof when he sees this."},
+  {"word": "Room", "Spelling": "Room", "Easy Pronunciation": "room", "Example Sentence": "There is always room for improvement."},
+  {"word": "Root", "Spelling": "Root", "Easy Pronunciation": "root", "Example Sentence": "We root for our team every week."},
+  {"word": "Rope", "Spelling": "Rope", "Easy Pronunciation": "rohp", "Example Sentence": "It takes time to learn the ropes."},
+  {"word": "Rose", "Spelling": "Rose", "Easy Pronunciation": "rohz", "Example Sentence": "Every rose has its thorn."},
+  {"word": "Salt", "Spelling": "Salt", "Easy Pronunciation": "salt", "Example Sentence": "Take his advice with a grain of salt."},
+  {"word": "Sand", "Spelling": "Sand", "Easy Pronunciation": "sand", "Example Sentence": "Don't bury your head in the sand."},
+  {"word": "Seed", "Spelling": "Seed", "Easy Pronunciation": "seed", "Example Sentence": "The teacher planted a seed of curiosity."},
+  {"word": "Sheep", "Spelling": "Sheep", "Easy Pronunciation": "sheep", "Example Sentence": "He is the black sheep of the family."},
+  {"word": "Shelf", "Spelling": "Shelf", "Easy Pronunciation": "shelf", "Example Sentence": "The project was left on the shelf."},
+  {"word": "Shell", "Spelling": "Shell", "Easy Pronunciation": "shel", "Example Sentence": "She came out of her shell at the party."},
+  {"word": "Ship", "Spelling": "Ship", "Easy Pronunciation": "ship", "Example Sentence": "He decided to jump ship before the crisis."},
+  {"word": "Shirt", "Spelling": "Shirt", "Easy Pronunciation": "shurt", "Example Sentence": "Keep your shirt on; we can talk calmly."},
+  {"word": "Shoe", "Spelling": "Shoe", "Easy Pronunciation": "shoo", "Example Sentence": "Walk a mile in someone else's shoes."},
+  {"word": "Shop", "Spelling": "Shop", "Easy Pronunciation": "shop", "Example Sentence": "Let's not talk shop at dinner."},
+  {"word": "Shoulder", "Spelling": "Shoul-der", "Easy Pronunciation": "SHOHL-dur", "Example Sentence": "She gave him the cold shoulder."},
+  {"word": "Silver", "Spelling": "Sil-ver", "Easy Pronunciation": "SIL-vur", "Example Sentence": "Every cloud has a silver lining."},
+  {"word": "Skin", "Spelling": "Skin", "Easy Pronunciation": "skin", "Example Sentence": "He has skin in the game."},
+  {"word": "Skirt", "Spelling": "Skirt", "Easy Pronunciation": "skurt", "Example Sentence": "Don't skirt around the issue."},
+  {"word": "Snake", "Spelling": "Snake", "Easy Pronunciation": "snayk", "Example Sentence": "He turned out to be a snake in the grass."},
+  {"word": "Sock", "Spelling": "Sock", "Easy Pronunciation": "sok", "Example Sentence": "Pull your socks up and try again."},
+  {"word": "Spoon", "Spelling": "Spoon", "Easy Pronunciation": "spoon", "Example Sentence": "She was born with a silver spoon in her mouth."},
+  {"word": "Spring", "Spelling": "Spring", "Easy Pronunciation": "spring", "Example Sentence": "He is no spring chicken."},
+  {"word": "Stamp", "Spelling": "Stamp", "Easy Pronunciation": "stamp", "Example Sentence": "The campaign aims to stamp out bullying."},
+  {"word": "Stick", "Spelling": "Stick", "Easy Pronunciation": "stik", "Example Sentence": "Stick to your guns."},
+  {"word": "Stone", "Spelling": "Stone", "Easy Pronunciation": "stohn", "Example Sentence": "Kill two birds with one stone."},
+  {"word": "Storm", "Spelling": "Storm", "Easy Pronunciation": "storm", "Example Sentence": "We will weather the storm together."},
+  {"word": "Straw", "Spelling": "Straw", "Easy Pronunciation": "straw", "Example Sentence": "That was the last straw."},
+  {"word": "Stream", "Spelling": "Stream", "Easy Pronunciation": "streem", "Example Sentence": "She tends to go with the stream."},
+  {"word": "Street", "Spelling": "Street", "Easy Pronunciation": "street", "Example Sentence": "He is street smart and practical."},
+  {"word": "String", "Spelling": "String", "Easy Pronunciation": "string", "Example Sentence": "He can pull strings to get tickets."},
+  {"word": "Sugar", "Spelling": "Sug-ar", "Easy Pronunciation": "SHUG-ur", "Example Sentence": "Don't sugarcoat the bad news."},
+  {"word": "Sword", "Spelling": "Sword", "Easy Pronunciation": "sord", "Example Sentence": "Technology is a double-edged sword."},
+  {"word": "Tail", "Spelling": "Tail", "Easy Pronunciation": "tayl", "Example Sentence": "The dog chased its tail all afternoon."},
+  {"word": "Tea", "Spelling": "Tea", "Easy Pronunciation": "tee", "Example Sentence": "That is not my cup of tea."},
+  {"word": "Thread", "Spelling": "Thread", "Easy Pronunciation": "thred", "Example Sentence": "His job is hanging by a thread."},
+  {"word": "Throat", "Spelling": "Throat", "Easy Pronunciation": "throht", "Example Sentence": "Don't jump down my throat."},
+  {"word": "Thumb", "Spelling": "Thumb", "Easy Pronunciation": "thum", "Example Sentence": "As a rule of thumb, arrive early."},
+  {"word": "Ticket", "Spelling": "Tick-et", "Easy Pronunciation": "TIK-it", "Example Sentence": "That is just the ticket."},
+  {"word": "Tie", "Spelling": "Tie", "Easy Pronunciation": "tye", "Example Sentence": "They decided to tie the knot."},
+  {"word": "Toe", "Spelling": "Toe", "Easy Pronunciation": "toh", "Example Sentence": "Keep everyone on their toes."},
+  {"word": "Tongue", "Spelling": "Tongue", "Easy Pronunciation": "tung", "Example Sentence": "He was tongue-tied during the speech."},
+  {"word": "Tooth", "Spelling": "Tooth", "Easy Pronunciation": "tooth", "Example Sentence": "She has a sweet tooth."},
+  {"word": "Towel", "Spelling": "Tow-el", "Easy Pronunciation": "TOW-ul", "Example Sentence": "Don't throw in the towel yet."},
+  {"word": "Tower", "Spelling": "Tow-er", "Easy Pronunciation": "TOW-ur", "Example Sentence": "He lives in an ivory tower."},
+  {"word": "Toy", "Spelling": "Toy", "Easy Pronunciation": "toy", "Example Sentence": "Don't toy with my emotions."},
+  {"word": "Train", "Spelling": "Train", "Easy Pronunciation": "trayn", "Example Sentence": "Sorry, I lost my train of thought."},
+  {"word": "Truck", "Spelling": "Truck", "Easy Pronunciation": "truk", "Example Sentence": "I will have no truck with dishonesty."},
+  {"word": "Wall", "Spelling": "Wall", "Easy Pronunciation": "wawl", "Example Sentence": "I hit a wall at work today."},
+  {"word": "Watch", "Spelling": "Watch", "Easy Pronunciation": "woch", "Example Sentence": "Watch your step around here."},
+  {"word": "Wheel", "Spelling": "Wheel", "Easy Pronunciation": "weel", "Example Sentence": "Don't reinvent the wheel."},
+  {"word": "Whistle", "Spelling": "Whis-tle", "Easy Pronunciation": "WIS-ul", "Example Sentence": "She decided to blow the whistle on corruption."},
+  {"word": "Wing", "Spelling": "Wing", "Easy Pronunciation": "wing", "Example Sentence": "Spread your wings and try new things."},
+  {"word": "Wire", "Spelling": "Wire", "Easy Pronunciation": "wyr", "Example Sentence": "The game went down to the wire."},
+  {"word": "Wood", "Spelling": "Wood", "Easy Pronunciation": "wood", "Example Sentence": "Knock on wood for good luck."},
+  {"word": "Wool", "Spelling": "Wool", "Easy Pronunciation": "wool", "Example Sentence": "He tried to pull the wool over my eyes."},
+  {"word": "Worm", "Spelling": "Worm", "Easy Pronunciation": "wurm", "Example Sentence": "The early bird catches the worm."},
+  {"word": "Yard", "Spelling": "Yard", "Easy Pronunciation": "yard", "Example Sentence": "She went the whole nine yards for the party."},
+  {
+    "word": "Absence",
+    "Spelling": "Ab-sence",
+    "Easy Pronunciation": "AB-suns",
+    "Example Sentence": "Absence makes the heart grow fonder."
+  },
+  {
+    "word": "Fool",
+    "Spelling": "Fool",
+    "Easy Pronunciation": "fool",
+    "Example Sentence": "A fool and his money are soon parted."
+  },
+  {
+    "word": "Need",
+    "Spelling": "Need",
+    "Easy Pronunciation": "need",
+    "Example Sentence": "A friend in need is a friend indeed."
+  },
+  {
+    "word": "Leopard",
+    "Spelling": "Leop-ard",
+    "Easy Pronunciation": "LEP-urd",
+    "Example Sentence": "A leopard cannot change its spots."
+  },
+  {
+    "word": "Penny",
+    "Spelling": "Pen-ny",
+    "Easy Pronunciation": "PEN-ee",
+    "Example Sentence": "A penny saved is a penny earned."
+  },
+  {
+    "word": "Stitch",
+    "Spelling": "Stitch",
+    "Easy Pronunciation": "stich",
+    "Example Sentence": "A stitch in time saves nine."
+  },
+  {
+    "word": "Sow",
+    "Spelling": "Sow",
+    "Easy Pronunciation": "soh",
+    "Example Sentence": "As you sow, so shall you reap."
+  },
+  {
+    "word": "Barking",
+    "Spelling": "Bark-ing",
+    "Easy Pronunciation": "BAR-king",
+    "Example Sentence": "Barking dogs seldom bite."
+  },
+  {
+    "word": "Beggars",
+    "Spelling": "Beg-gars",
+    "Easy Pronunciation": "BEG-urz",
+    "Example Sentence": "Beggars can't be choosers."
+  },
+  {
+    "word": "Safe",
+    "Spelling": "Safe",
+    "Easy Pronunciation": "sayf",
+    "Example Sentence": "Better safe than sorry."
+  },
+  {
+    "word": "Flock",
+    "Spelling": "Flock",
+    "Easy Pronunciation": "flok",
+    "Example Sentence": "Birds of a feather flock together."
+  },
+  {
+    "word": "Cleanliness",
+    "Spelling": "Clean-li-ness",
+    "Easy Pronunciation": "KLEN-lee-nes",
+    "Example Sentence": "Cleanliness is next to godliness."
+  },
+  {
+    "word": "Curiosity",
+    "Spelling": "Cu-ri-os-i-ty",
+    "Easy Pronunciation": "kyoor-ee-OS-i-tee",
+    "Example Sentence": "Curiosity killed the cat."
+  },
+  {
+    "word": "Coat",
+    "Spelling": "Coat",
+    "Easy Pronunciation": "koht",
+    "Example Sentence": "Cut your coat according to your cloth."
+  },
+  {
+    "word": "Discretion",
+    "Spelling": "Dis-cre-tion",
+    "Easy Pronunciation": "dis-KRESH-un",
+    "Example Sentence": "Discretion is the better part of valour."
+  },
+  {
+    "word": "Cart",
+    "Spelling": "Cart",
+    "Easy Pronunciation": "kart",
+    "Example Sentence": "Don't put the cart before the horse."
+  },
+  {
+    "word": "Bathwater",
+    "Spelling": "Bath-wa-ter",
+    "Easy Pronunciation": "BATH-waw-tur",
+    "Example Sentence": "Don't throw the baby out with the bathwater."
+  },
+  {
+    "word": "Rise",
+    "Spelling": "Rise",
+    "Easy Pronunciation": "ryz",
+    "Example Sentence": "Early to bed and early to rise makes a man healthy, wealthy, and wise."
+  },
+  {
+    "word": "Day",
+    "Spelling": "Day",
+    "Easy Pronunciation": "day",
+    "Example Sentence": "Every dog has its day."
+  },
+  {
+    "word": "Familiarity",
+    "Spelling": "Fa-mil-i-ar-i-ty",
+    "Easy Pronunciation": "fa-mil-ee-AR-i-tee",
+    "Example Sentence": "Familiarity breeds contempt."
+  },
+  {
+    "word": "Served",
+    "Spelling": "Served",
+    "Easy Pronunciation": "survd",
+    "Example Sentence": "First come, first served."
+  },
+  {
+    "word": "Angels",
+    "Spelling": "An-gels",
+    "Easy Pronunciation": "AYN-julz",
+    "Example Sentence": "Fools rush in where angels fear to tread."
+  },
+  {
+    "word": "Lifetime",
+    "Spelling": "Life-time",
+    "Easy Pronunciation": "LYFE-tym",
+    "Example Sentence": "Give a man a fish and you feed him for a day; teach a man to fish and you feed him for a lifetime."
+  },
+  {
+    "word": "Credit",
+    "Spelling": "Cred-it",
+    "Easy Pronunciation": "KRED-it",
+    "Example Sentence": "Give credit where credit is due."
+  },
+  {
+    "word": "Wait",
+    "Spelling": "Wait",
+    "Easy Pronunciation": "wayt",
+    "Example Sentence": "Good things come to those who wait."
+  },
+  {
+    "word": "Haste",
+    "Spelling": "Haste",
+    "Easy Pronunciation": "hayst",
+    "Example Sentence": "Haste makes waste."
+  },
+  {
+    "word": "Last",
+    "Spelling": "Last",
+    "Easy Pronunciation": "last",
+    "Example Sentence": "He who laughs last laughs longest."
+  },
+  {
+    "word": "Prepare",
+    "Spelling": "Pre-pare",
+    "Easy Pronunciation": "pri-PAIR",
+    "Example Sentence": "Hope for the best, prepare for the worst."
+  },
+  {
+    "word": "Broke",
+    "Spelling": "Broke",
+    "Easy Pronunciation": "brohk",
+    "Example Sentence": "If it ain't broke, don't fix it."
+  },
+  {
+    "word": "Beat",
+    "Spelling": "Beat",
+    "Easy Pronunciation": "beet",
+    "Example Sentence": "If you can't beat them, join them."
+  },
+  {
+    "word": "Yourself",
+    "Spelling": "Your-self",
+    "Easy Pronunciation": "yoor-SELF",
+    "Example Sentence": "If you want something done right, do it yourself."
+  },
+  {
+    "word": "Tango",
+    "Spelling": "Tan-go",
+    "Easy Pronunciation": "TANG-goh",
+    "Example Sentence": "It takes two to tango."
+  },
+  {
+    "word": "Trades",
+    "Spelling": "Trades",
+    "Easy Pronunciation": "traydz",
+    "Example Sentence": "Jack of all trades, master of none."
+  },
+  {
+    "word": "Enemies",
+    "Spelling": "En-e-mies",
+    "Easy Pronunciation": "EN-uh-meez",
+    "Example Sentence": "Keep your friends close and your enemies closer."
+  },
+  {
+    "word": "Son",
+    "Spelling": "Son",
+    "Easy Pronunciation": "sun",
+    "Example Sentence": "Like father, like son."
+  },
+  {
+    "word": "Leap",
+    "Spelling": "Leap",
+    "Easy Pronunciation": "leep",
+    "Example Sentence": "Look before you leap."
+  },
+  {
+    "word": "Conquers",
+    "Spelling": "Con-quers",
+    "Easy Pronunciation": "KON-kurz",
+    "Example Sentence": "Love conquers all."
+  },
+  {
+    "word": "Hay",
+    "Spelling": "Hay",
+    "Easy Pronunciation": "hay",
+    "Example Sentence": "Make hay while the sun shines."
+  },
+  {
+    "word": "Necessity",
+    "Spelling": "Ne-ces-si-ty",
+    "Easy Pronunciation": "ni-SES-i-tee",
+    "Example Sentence": "Necessity is the mother of invention."
+  },
+  {
+    "word": "Tomorrow",
+    "Spelling": "To-mor-row",
+    "Easy Pronunciation": "tuh-MOR-oh",
+    "Example Sentence": "Never put off until tomorrow what you can do today."
+  },
+  {
+    "word": "Island",
+    "Spelling": "Is-land",
+    "Easy Pronunciation": "EYE-lund",
+    "Example Sentence": "No man is an island."
+  },
+  {
+    "word": "News",
+    "Spelling": "News",
+    "Easy Pronunciation": "nooz",
+    "Example Sentence": "No news is good news."
+  },
+  {
+    "word": "Pain",
+    "Spelling": "Pain",
+    "Easy Pronunciation": "payn",
+    "Example Sentence": "No pain, no gain."
+  },
+  {
+    "word": "Bitten",
+    "Spelling": "Bit-ten",
+    "Easy Pronunciation": "BIT-un",
+    "Example Sentence": "Once bitten, twice shy."
+  },
+  {
+    "word": "Turn",
+    "Spelling": "Turn",
+    "Easy Pronunciation": "turn",
+    "Example Sentence": "One good turn deserves another."
+  },
+  {
+    "word": "Trash",
+    "Spelling": "Trash",
+    "Easy Pronunciation": "trash",
+    "Example Sentence": "One man's trash is another man's treasure."
+  },
+  {
+    "word": "Swallow",
+    "Spelling": "Swal-low",
+    "Easy Pronunciation": "SWOL-oh",
+    "Example Sentence": "One swallow does not make a summer."
+  },
+  {
+    "word": "Sight",
+    "Spelling": "Sight",
+    "Easy Pronunciation": "syt",
+    "Example Sentence": "Out of sight, out of mind."
+  },
+  {
+    "word": "Patience",
+    "Spelling": "Pa-tience",
+    "Easy Pronunciation": "PAY-shuns",
+    "Example Sentence": "Patience is a virtue."
+  },
+  {
+    "word": "Prevention",
+    "Spelling": "Pre-ven-tion",
+    "Easy Pronunciation": "pri-VEN-shun",
+    "Example Sentence": "Prevention is better than cure."
+  },
+  {
+    "word": "Pride",
+    "Spelling": "Pride",
+    "Easy Pronunciation": "pryd",
+    "Example Sentence": "Pride goes before a fall."
+  },
+  {
+    "word": "Procrastination",
+    "Spelling": "Pro-cras-ti-na-tion",
+    "Easy Pronunciation": "proh-kras-ti-NAY-shun",
+    "Example Sentence": "Procrastination is the thief of time."
+  },
+  {
+    "word": "Silence",
+    "Spelling": "Si-lence",
+    "Easy Pronunciation": "SYE-luns",
+    "Example Sentence": "Silence is golden."
+  },
+  {
+    "word": "Steady",
+    "Spelling": "Stead-y",
+    "Easy Pronunciation": "STED-ee",
+    "Example Sentence": "Slow and steady wins the race."
+  },
+  {
+    "word": "Devil",
+    "Spelling": "Dev-il",
+    "Easy Pronunciation": "DEV-ul",
+    "Example Sentence": "Speak of the devil and he shall appear."
+  },
+  {
+    "word": "Worlds",
+    "Spelling": "Worlds",
+    "Easy Pronunciation": "wurldz",
+    "Example Sentence": "The best of both worlds."
+  },
+  {
+    "word": "Blind",
+    "Spelling": "Blind",
+    "Easy Pronunciation": "blynd",
+    "Example Sentence": "The blind leading the blind."
+  },
+  {
+    "word": "Means",
+    "Spelling": "Means",
+    "Easy Pronunciation": "meenz",
+    "Example Sentence": "The ends justify the means."
+  },
+  {
+    "word": "Kettle",
+    "Spelling": "Ket-tle",
+    "Easy Pronunciation": "KET-ul",
+    "Example Sentence": "The pot calling the kettle black."
+  },
+  {
+    "word": "Pudding",
+    "Spelling": "Pud-ding",
+    "Easy Pronunciation": "PUD-ing",
+    "Example Sentence": "The proof of the pudding is in the eating."
+  },
+  {
+    "word": "Hell",
+    "Spelling": "Hell",
+    "Easy Pronunciation": "hel",
+    "Example Sentence": "The road to hell is paved with good intentions."
+  },
+  {
+    "word": "Squeaky",
+    "Spelling": "Squeak-y",
+    "Easy Pronunciation": "SKWEE-kee",
+    "Example Sentence": "The squeaky wheel gets the grease."
+  },
+  {
+    "word": "Camel",
+    "Spelling": "Cam-el",
+    "Easy Pronunciation": "KAM-ul",
+    "Example Sentence": "The straw that broke the camel's back."
+  },
+  {
+    "word": "Home",
+    "Spelling": "Home",
+    "Easy Pronunciation": "hohm",
+    "Example Sentence": "There's no place like home."
+  },
+  {
+    "word": "Smoke",
+    "Spelling": "Smoke",
+    "Easy Pronunciation": "smohk",
+    "Example Sentence": "There's no smoke without fire."
+  },
+  {
+    "word": "Tide",
+    "Spelling": "Tide",
+    "Easy Pronunciation": "tyd",
+    "Example Sentence": "Time and tide wait for no man."
+  },
+  {
+    "word": "Time",
+    "Spelling": "Time",
+    "Easy Pronunciation": "tym",
+    "Example Sentence": "Time is money."
+  },
+  {
+    "word": "Cooks",
+    "Spelling": "Cooks",
+    "Easy Pronunciation": "kuks",
+    "Example Sentence": "Too many cooks spoil the broth."
+  },
+  {
+    "word": "Wrongs",
+    "Spelling": "Wrongs",
+    "Easy Pronunciation": "rongz",
+    "Example Sentence": "Two wrongs don't make a right."
+  },
+  {
+    "word": "Tough",
+    "Spelling": "Tough",
+    "Easy Pronunciation": "tuf",
+    "Example Sentence": "When the going gets tough, the tough get going."
+  },
+  {
+    "word": "Lead",
+    "Spelling": "Lead",
+    "Easy Pronunciation": "leed",
+    "Example Sentence": "You can lead a horse to water but you can't make it drink."
+  },
+  {
+    "word": "Omelette",
+    "Spelling": "Om-e-lette",
+    "Easy Pronunciation": "OM-uh-let",
+    "Example Sentence": "You can't make an omelette without breaking eggs."
+  },
+  {
+    "word": "Scratch",
+    "Spelling": "Scratch",
+    "Easy Pronunciation": "skrach",
+    "Example Sentence": "You scratch my back and I'll scratch yours."
+  },
+  {
+    "word": "Win",
+    "Spelling": "Win",
+    "Easy Pronunciation": "win",
+    "Example Sentence": "You win some, you lose some."
+  },
+  {
+    "word": "Youth",
+    "Spelling": "Youth",
+    "Easy Pronunciation": "yooth",
+    "Example Sentence": "Youth is wasted on the young."
+  },
+  {
+    "word": "Zeal",
+    "Spelling": "Zeal",
+    "Easy Pronunciation": "zeel",
+    "Example Sentence": "Zeal without knowledge is fire without light."
+  },
+  {
+    "word": "Doctor",
+    "Spelling": "Doc-tor",
+    "Easy Pronunciation": "DOK-tur",
+    "Example Sentence": "An apple a day keeps the doctor away."
+  },
+  {
+    "word": "Moss",
+    "Spelling": "Moss",
+    "Easy Pronunciation": "mos",
+    "Example Sentence": "A rolling stone gathers no moss."
+  },
+  {
+    "word": "Link",
+    "Spelling": "Link",
+    "Easy Pronunciation": "link",
+    "Example Sentence": "A chain is only as strong as its weakest link."
+  },
+  {
+    "word": "Dangerous",
+    "Spelling": "Dan-ger-ous",
+    "Easy Pronunciation": "DAYN-jur-us",
+    "Example Sentence": "A little knowledge is a dangerous thing."
+  },
+  {
+    "word": "Boils",
+    "Spelling": "Boils",
+    "Easy Pronunciation": "boylz",
+    "Example Sentence": "A watched pot never boils."
+  },
+  {
+    "word": "Grindstone",
+    "Spelling": "Grind-stone",
+    "Easy Pronunciation": "GRYND-stohn",
+    "Example Sentence": "Keep your nose to the grindstone."
+  },
+  {
+    "word": "Loaf",
+    "Spelling": "Loaf",
+    "Easy Pronunciation": "lohf",
+    "Example Sentence": "Half a loaf is better than none."
+  },
+  {
+    "word": "Bush",
+    "Spelling": "Bush",
+    "Easy Pronunciation": "boosh",
+    "Example Sentence": "A bird in the hand is worth two in the bush."
+  },
+  {
+    "word": "Wolf",
+    "Spelling": "Wolf",
+    "Easy Pronunciation": "woolf",
+    "Example Sentence": "Keep the wolf from the door."
+  },
+  {
+    "word": "Reach",
+    "Spelling": "Reach",
+    "Easy Pronunciation": "reech",
+    "Example Sentence": "Reach for the stars."
+  },
+  {
+    "word": "Still",
+    "Spelling": "Still",
+    "Easy Pronunciation": "stil",
+    "Example Sentence": "Still waters run deep."
+  },
+  {
+    "word": "Book",
+    "Spelling": "Book",
+    "Easy Pronunciation": "buk",
+    "Example Sentence": "You can't judge a book by its cover."
+  },
+  {
+    "word": "Chickens",
+    "Spelling": "Chick-ens",
+    "Easy Pronunciation": "CHIK-inz",
+    "Example Sentence": "Don't count your chickens before they hatch."
+  },
+  {
+    "word": "Eggs",
+    "Spelling": "Eggs",
+    "Easy Pronunciation": "egz",
+    "Example Sentence": "Don't put all your eggs in one basket."
+  },
+  {
+    "word": "Milk",
+    "Spelling": "Milk",
+    "Easy Pronunciation": "milk",
+    "Example Sentence": "Don't cry over spilt milk."
+  },
+  {
+    "word": "Feather",
+    "Spelling": "Feath-er",
+    "Easy Pronunciation": "FETH-ur",
+    "Example Sentence": "Birds of a feather flock together."
+  },
+  {
+    "word": "Stone",
+    "Spelling": "Stone",
+    "Easy Pronunciation": "stohn",
+    "Example Sentence": "People who live in glass houses shouldn't throw stones."
+  },
+  {
+    "word": "Grass",
+    "Spelling": "Grass",
+    "Easy Pronunciation": "gras",
+    "Example Sentence": "The grass is always greener on the other side."
+  },
+  {
+    "word": "Iron",
+    "Spelling": "I-ron",
+    "Easy Pronunciation": "EYE-urn",
+    "Example Sentence": "Strike while the iron is hot."
+  },
+  {
+    "word": "Pot",
+    "Spelling": "Pot",
+    "Easy Pronunciation": "pot",
+    "Example Sentence": "A watched pot never boils."
+  },
+  {
+    "word": "Rome",
+    "Spelling": "Rome",
+    "Easy Pronunciation": "rohm",
+    "Example Sentence": "All roads lead to Rome."
+  },
+  {
+    "word": "Pen",
+    "Spelling": "Pen",
+    "Easy Pronunciation": "pen",
+    "Example Sentence": "The pen is mightier than the sword."
+  },
+  {
+    "word": "Sword",
+    "Spelling": "Sword",
+    "Easy Pronunciation": "sord",
+    "Example Sentence": "The pen is mightier than the sword."
+  },
+  {
+    "word": "Worm",
+    "Spelling": "Worm",
+    "Easy Pronunciation": "wurm",
+    "Example Sentence": "The early bird catches the worm."
+  },
+  {
+    "word": "Cloud",
+    "Spelling": "Cloud",
+    "Easy Pronunciation": "klowd",
+    "Example Sentence": "Every cloud has a silver lining."
+  },
+  {
+    "word": "Glitters",
+    "Spelling": "Glit-ters",
+    "Easy Pronunciation": "GLIT-urz",
+    "Example Sentence": "All that glitters is not gold."
+  }
 ]
