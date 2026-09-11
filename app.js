@@ -13,17 +13,37 @@ const randomWordButton = document.querySelector("#randomWordButton");
 const zoomOutButton = document.querySelector("#zoomOutButton");
 const zoomInButton = document.querySelector("#zoomInButton");
 const lookupStatus = document.querySelector("#lookupStatus");
+const webllmModelSelect = document.querySelector("#webllmModelSelect");
+const loadWebllmButton = document.querySelector("#loadWebllmButton");
+const webllmStatus = document.querySelector("#webllmStatus");
 
 const HISTORY_LIMIT = 12;
 const STORE_PREFIX = "ifp-word-history";
 const SETTINGS_KEY = "ifp-tutor-settings";
 const ZOOM_KEY = "ifp-tutor-zoom";
+const WEBLLM_MODEL_KEY = "ifp-tutor-webllm-model";
+const WEBLLM_MODULE_URL = "https://esm.run/@mlc-ai/web-llm";
+const DEFAULT_WEBLLM_MODEL = "Qwen2.5-0.5B-Instruct-q4f16_1-MLC";
+const WEBLLM_MODELS = [
+  "Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+  "Llama-3.2-1B-Instruct-q4f16_1-MLC",
+  "gemma3-1b-it-q4f16_1-MLC",
+  "Llama-3.2-3B-Instruct-q4f16_1-MLC"
+];
+const AI_LOOKUP_DELAY_MS = 650;
 const MIN_ZOOM = 0.8;
 const MAX_ZOOM = 1.4;
 const ZOOM_STEP = 0.1;
 let wordData = [];
 let activeWord = "";
 let restoredWordValue = "";
+let webllmModulePromise = null;
+let webllmEngine = null;
+let webllmEnginePromise = null;
+let loadedWebllmModel = "";
+let webllmLoadToken = 0;
+let aiLookupToken = 0;
+let aiLookupTimer = null;
 
 function historyKey() {
   return `${STORE_PREFIX}:${classSelect.value}:${subjectSelect.value}`;
@@ -105,6 +125,11 @@ function setStatus(message, isWarning = false) {
   lookupStatus.classList.toggle("is-warning", isWarning);
 }
 
+function setWebLLMStatus(message, isWarning = false) {
+  webllmStatus.textContent = message;
+  webllmStatus.classList.toggle("is-warning", isWarning);
+}
+
 function showWord(entry, options = {}) {
   activeWord = entry.word;
   selectedWord.textContent = entry.word;
@@ -139,6 +164,23 @@ function showTypedWord(value, message, isWarning = false) {
   exampleSentence.textContent = "Example sentence";
   speakButton.disabled = !activeWord;
   setStatus(message, isWarning);
+}
+
+function showLoadingAIWord(value) {
+  activeWord = value.trim();
+  selectedWord.textContent = activeWord;
+  wordSpelling.textContent = "Loading...";
+  wordPronunciation.textContent = "Loading...";
+  exampleSentence.textContent = "Asking WebLLM for an example sentence...";
+  speakButton.disabled = false;
+  setStatus(`No JSON entry found for "${activeWord}". Using WebLLM.`);
+}
+
+function clearPendingAILookup() {
+  if (aiLookupTimer) {
+    window.clearTimeout(aiLookupTimer);
+    aiLookupTimer = null;
+  }
 }
 
 function suggestionButton(word, source) {
@@ -177,6 +219,8 @@ function renderSuggestions(forceOpen = true) {
 function lookupWord() {
   const value = wordInput.value.trim();
   const entry = findWord(value);
+  const lookupToken = ++aiLookupToken;
+  clearPendingAILookup();
 
   if (entry) {
     showWord(entry);
@@ -189,7 +233,158 @@ function lookupWord() {
   }
 
   saveSettings();
-  showTypedWord(value, `No JSON entry found for "${value}".`, true);
+  showTypedWord(value, `No JSON entry found for "${value}". WebLLM will try it.`, true);
+  aiLookupTimer = window.setTimeout(() => {
+    generateWebLLMWord(value, lookupToken);
+  }, AI_LOOKUP_DELAY_MS);
+}
+
+function savedWebLLMModel() {
+  const savedModel = localStorage.getItem(WEBLLM_MODEL_KEY);
+  return WEBLLM_MODELS.includes(savedModel) ? savedModel : DEFAULT_WEBLLM_MODEL;
+}
+
+function populateWebLLMModels() {
+  const selectedModel = savedWebLLMModel();
+  const fragment = document.createDocumentFragment();
+
+  WEBLLM_MODELS.forEach((modelId) => {
+    const option = document.createElement("option");
+    option.value = modelId;
+    option.textContent = modelId;
+    fragment.append(option);
+  });
+
+  webllmModelSelect.append(fragment);
+  webllmModelSelect.value = selectedModel;
+}
+
+function saveSelectedWebLLMModel() {
+  localStorage.setItem(WEBLLM_MODEL_KEY, webllmModelSelect.value);
+}
+
+function importWebLLM() {
+  if (!webllmModulePromise) {
+    webllmModulePromise = import(WEBLLM_MODULE_URL);
+  }
+
+  return webllmModulePromise;
+}
+
+async function loadWebLLMModel(modelId = webllmModelSelect.value) {
+  if (!navigator.gpu) {
+    setWebLLMStatus("WebGPU is not available in this browser.", true);
+    throw new Error("WebGPU is not available.");
+  }
+
+  if (webllmEngine && loadedWebllmModel === modelId) {
+    setWebLLMStatus(`Loaded cached model: ${modelId}`);
+    return webllmEngine;
+  }
+
+  if (webllmEnginePromise && loadedWebllmModel === modelId) {
+    return webllmEnginePromise;
+  }
+
+  const loadToken = ++webllmLoadToken;
+  loadedWebllmModel = modelId;
+  loadWebllmButton.disabled = true;
+  setWebLLMStatus(`Loading ${modelId}. First run downloads it; future loads use browser cache.`);
+
+  webllmEnginePromise = (async () => {
+    try {
+      const webllm = await importWebLLM();
+      const engine = await webllm.CreateMLCEngine(modelId, {
+        initProgressCallback: (report) => {
+          if (loadToken === webllmLoadToken) {
+            setWebLLMStatus(report.text || `Loading ${modelId}...`);
+          }
+        }
+      });
+
+      if (loadToken !== webllmLoadToken) {
+        return engine;
+      }
+
+      webllmEngine = engine;
+      setWebLLMStatus(`Ready: ${modelId}`);
+      return engine;
+    } catch (error) {
+      if (loadToken === webllmLoadToken) {
+        loadedWebllmModel = "";
+        setWebLLMStatus("Could not load WebLLM model.", true);
+      }
+      throw error;
+    } finally {
+      if (loadToken === webllmLoadToken) {
+        loadWebllmButton.disabled = false;
+      }
+    }
+  })();
+
+  return webllmEnginePromise;
+}
+
+function parseJSONFromText(text) {
+  try {
+    return JSON.parse(text);
+  } catch {
+    const match = text.match(/\{[\s\S]*\}/);
+    return match ? JSON.parse(match[0]) : null;
+  }
+}
+
+async function generateWebLLMWord(value, lookupToken) {
+  showLoadingAIWord(value);
+
+  try {
+    const engine = await loadWebLLMModel();
+    if (lookupToken !== aiLookupToken) return;
+
+    const response = await engine.chat.completions.create({
+      messages: [
+        {
+          role: "system",
+          content:
+            "You help young English learners. Return only valid JSON with keys word, Spelling, Easy Pronunciation, and Example Sentence. Keep the sentence simple."
+        },
+        {
+          role: "user",
+          content: `Create a short learner-friendly entry for this English word: ${value}`
+        }
+      ],
+      temperature: 0.2,
+      max_tokens: 120
+    });
+
+    if (lookupToken !== aiLookupToken) return;
+
+    const content = response.choices?.[0]?.message?.content || "";
+    const aiEntry = parseJSONFromText(content);
+
+    if (!aiEntry) {
+      throw new Error("WebLLM returned non-JSON content.");
+    }
+
+    showWord(
+      {
+        word: value,
+        Spelling: aiEntry.Spelling || aiEntry.spelling || value,
+        "Easy Pronunciation":
+          aiEntry["Easy Pronunciation"] || aiEntry.easyPronunciation || value.toLowerCase(),
+        "Example Sentence":
+          aiEntry["Example Sentence"] ||
+          aiEntry.exampleSentence ||
+          `I can use ${value} in a sentence.`
+      },
+      {
+        status: `Generated by WebLLM because "${value}" is not in words.json.`
+      }
+    );
+  } catch {
+    if (lookupToken !== aiLookupToken) return;
+    showTypedWord(value, `No JSON entry found for "${value}" and WebLLM is not ready.`, true);
+  }
 }
 
 function todayKey() {
@@ -333,6 +528,7 @@ function changeZoom(delta) {
 
 async function boot() {
   bootClassOptions();
+  populateWebLLMModels();
   restoreSettings();
   restoreZoom();
 
@@ -374,8 +570,17 @@ async function boot() {
   clearHistoryButton.addEventListener("click", confirmClearHistory);
   pasteButton.addEventListener("click", pasteFromClipboard);
   randomWordButton.addEventListener("click", showRandomWord);
+  webllmModelSelect.addEventListener("change", () => {
+    saveSelectedWebLLMModel();
+    loadWebLLMModel().catch(() => {});
+  });
+  loadWebllmButton.addEventListener("click", () => {
+    saveSelectedWebLLMModel();
+    loadWebLLMModel().catch(() => {});
+  });
   zoomOutButton.addEventListener("click", () => changeZoom(-ZOOM_STEP));
   zoomInButton.addEventListener("click", () => changeZoom(ZOOM_STEP));
+  loadWebLLMModel().catch(() => {});
 }
 
 boot();

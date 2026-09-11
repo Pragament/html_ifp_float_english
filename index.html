@@ -30,6 +30,15 @@
         <input id="wordInput" type="text" autocomplete="off" spellcheck="false" placeholder="Word" aria-label="Word" aria-describedby="lookupStatus">
       </section>
 
+      <details class="ai-panel" id="webllmPanel">
+        <summary>WebLLM</summary>
+        <div class="ai-controls">
+          <select id="webllmModelSelect" aria-label="WebLLM model"></select>
+          <button id="loadWebllmButton" type="button">Load</button>
+        </div>
+        <p id="webllmStatus" class="status">Model will load for missing words.</p>
+      </details>
+
       <div id="suggestions" class="suggestions" role="listbox" aria-label="Suggestions"></div>
 
       <section id="wordCard" class="word-card" aria-live="polite">

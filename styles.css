@@ -121,6 +121,47 @@ button:focus-visible {
   display: block;
 }
 
+.ai-panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px;
+}
+
+.ai-panel summary {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ai-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.ai-controls button {
+  min-height: 36px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 6px 10px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ai-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+}
+
+.ai-panel .status {
+  margin-top: 6px;
+}
+
 .suggestion {
   width: 100%;
   min-height: 36px;
