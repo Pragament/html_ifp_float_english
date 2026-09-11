@@ -137,11 +137,12 @@ button:focus-visible {
 
 .ai-controls {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 6px;
   margin-top: 6px;
 }
 
+.ai-submit-button,
 .ai-controls button {
   min-height: 36px;
   border: 1px solid var(--accent);
@@ -153,6 +154,20 @@ button:focus-visible {
   cursor: pointer;
 }
 
+.ai-submit-button {
+  width: 100%;
+}
+
+.ai-submit-button[hidden] {
+  display: none;
+}
+
+.ai-submit-button:hover,
+.ai-controls button:hover {
+  background: var(--accent-strong);
+}
+
+.ai-submit-button:disabled,
 .ai-controls button:disabled {
   cursor: not-allowed;
   opacity: 0.52;
@@ -203,6 +218,10 @@ button:focus-visible {
   display: grid;
   grid-template-columns: minmax(80px, 1fr) minmax(88px, 1fr) minmax(120px, 1.25fr);
   gap: 6px;
+}
+
+.word-row[hidden] {
+  display: none;
 }
 
 .word-row output {

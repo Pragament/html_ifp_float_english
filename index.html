@@ -53,12 +53,13 @@
 
       <p id="lookupStatus" class="status">Pick English and start with Red, Yellow, or Blue.</p>
 
+      <button id="submitWebllmButton" class="ai-submit-button" type="button" hidden>Generate Example Sentence</button>
+
       <details class="ai-panel" id="webllmPanel">
         <summary>WebLLM</summary>
         <div class="ai-controls">
           <select id="webllmModelSelect" aria-label="WebLLM model"></select>
           <button id="loadWebllmButton" type="button">Load</button>
-          <button id="submitWebllmButton" type="button">Submit</button>
         </div>
         <p id="webllmStatus" class="status">Model will load for missing words.</p>
       </details>

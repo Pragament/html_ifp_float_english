@@ -135,9 +135,14 @@ function setWordRowVisible(isVisible) {
   wordRow.hidden = !isVisible;
 }
 
+function setWebLLMSubmitVisible(isVisible) {
+  submitWebllmButton.hidden = !isVisible;
+}
+
 function showWord(entry, options = {}) {
   activeWord = entry.word;
   setWordRowVisible(true);
+  setWebLLMSubmitVisible(false);
   selectedWord.textContent = entry.word;
   wordSpelling.textContent = spellingFor(entry);
   wordPronunciation.textContent = normalizePronunciation(pronunciationFor(entry), entry.word);
@@ -155,6 +160,7 @@ function showWord(entry, options = {}) {
 function resetWord(message = "Select a word from the suggestions.") {
   activeWord = "";
   setWordRowVisible(true);
+  setWebLLMSubmitVisible(false);
   selectedWord.textContent = "Selected Word";
   wordSpelling.textContent = "Spelling";
   wordPronunciation.textContent = "Easy Pronunciation";
@@ -166,9 +172,7 @@ function resetWord(message = "Select a word from the suggestions.") {
 function showTypedWord(value, message, isWarning = false) {
   activeWord = value.trim();
   setWordRowVisible(false);
-  selectedWord.textContent = activeWord || "Selected Word";
-  wordSpelling.textContent = "Spelling";
-  wordPronunciation.textContent = "Easy Pronunciation";
+  setWebLLMSubmitVisible(Boolean(activeWord));
   exampleSentence.textContent = "Example sentence";
   speakButton.disabled = !activeWord;
   setStatus(message, isWarning);
@@ -178,9 +182,6 @@ function showLoadingAIWord(value) {
   activeWord = value.trim();
   pendingWebLLMWord = activeWord;
   setWordRowVisible(false);
-  selectedWord.textContent = activeWord;
-  wordSpelling.textContent = "Loading...";
-  wordPronunciation.textContent = "Loading...";
   exampleSentence.textContent = "Asking WebLLM for an example sentence...";
   speakButton.disabled = false;
   setStatus(`No JSON entry found for "${activeWord}". Using WebLLM.`);
@@ -236,7 +237,7 @@ function lookupWord() {
 
   saveSettings();
   pendingWebLLMWord = value;
-  showTypedWord(value, `No JSON entry found for "${value}". Press WebLLM Submit to generate it.`, true);
+  showTypedWord(value, `No JSON entry found for "${value}". Press Generate Example Sentence.`, true);
 }
 
 function savedWebLLMModel() {
@@ -383,6 +384,7 @@ async function generateWebLLMWord(value, lookupToken) {
 
     activeWord = value;
     setWordRowVisible(false);
+    setWebLLMSubmitVisible(false);
     exampleSentence.textContent = content.trim();
     speakButton.disabled = false;
     saveHistory(value);
@@ -418,6 +420,7 @@ function submitWebLLMLookup() {
     return;
   }
 
+  saveHistory(value);
   saveSettings();
   generateWebLLMWord(value, ++aiLookupToken);
 }
