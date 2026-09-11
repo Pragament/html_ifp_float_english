@@ -69,6 +69,12 @@ function clearHistory() {
   renderSuggestions();
 }
 
+function confirmClearHistory() {
+  if (window.confirm("Clear recent words?")) {
+    clearHistory();
+  }
+}
+
 function normalizePronunciation(value) {
   return value.replace(/\*\*/g, "");
 }
@@ -365,7 +371,7 @@ async function boot() {
   classSelect.addEventListener("change", syncForSelectionChange);
   subjectSelect.addEventListener("change", syncForSelectionChange);
   speakButton.addEventListener("click", speakWord);
-  clearHistoryButton.addEventListener("click", clearHistory);
+  clearHistoryButton.addEventListener("click", confirmClearHistory);
   pasteButton.addEventListener("click", pasteFromClipboard);
   randomWordButton.addEventListener("click", showRandomWord);
   zoomOutButton.addEventListener("click", () => changeZoom(-ZOOM_STEP));
