@@ -121,18 +121,35 @@ button:focus-visible {
   display: block;
 }
 
-.ai-panel {
+.advanced-panel {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 6px;
 }
 
-.ai-panel summary {
+.advanced-panel summary {
   color: var(--text);
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
+}
+
+.advanced-group {
+  display: grid;
+  gap: 6px;
+  padding-top: 8px;
+}
+
+.advanced-group + .advanced-group {
+  margin-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.advanced-group h2 {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .ai-controls {
@@ -173,7 +190,7 @@ button:focus-visible {
   opacity: 0.52;
 }
 
-.ai-panel .status {
+.advanced-panel .status {
   margin-top: 6px;
 }
 
@@ -282,6 +299,31 @@ button:focus-visible {
 .speak-button:disabled {
   cursor: not-allowed;
   opacity: 0.48;
+}
+
+.speech-controls {
+  display: grid;
+  grid-template-columns: minmax(74px, auto) minmax(0, 1fr);
+  gap: 6px;
+  margin-top: 6px;
+  align-items: center;
+}
+
+.speech-controls label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.speech-controls label:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.speech-controls input[type="range"] {
+  padding: 0;
 }
 
 .status {

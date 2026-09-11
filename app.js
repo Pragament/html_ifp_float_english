@@ -18,12 +18,17 @@ const webllmModelSelect = document.querySelector("#webllmModelSelect");
 const loadWebllmButton = document.querySelector("#loadWebllmButton");
 const submitWebllmButton = document.querySelector("#submitWebllmButton");
 const webllmStatus = document.querySelector("#webllmStatus");
+const speechRateInput = document.querySelector("#speechRateInput");
+const speechRateValue = document.querySelector("#speechRateValue");
+const speechAccentSelect = document.querySelector("#speechAccentSelect");
+const speechVoiceSelect = document.querySelector("#speechVoiceSelect");
 
 const HISTORY_LIMIT = 12;
 const STORE_PREFIX = "ifp-word-history";
 const SETTINGS_KEY = "ifp-tutor-settings";
 const ZOOM_KEY = "ifp-tutor-zoom";
 const WEBLLM_MODEL_KEY = "ifp-tutor-webllm-model";
+const SPEECH_SETTINGS_KEY = "ifp-tutor-speech-settings";
 const WEBLLM_MODULE_URL = "https://esm.run/@mlc-ai/web-llm";
 const DEFAULT_WEBLLM_MODEL = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
 const WEBLLM_MODELS = [
@@ -35,6 +40,8 @@ const WEBLLM_MODELS = [
 const MIN_ZOOM = 0.8;
 const MAX_ZOOM = 1.4;
 const ZOOM_STEP = 0.1;
+const DEFAULT_SPEECH_RATE = 0.82;
+const VOICE_LOAD_RETRY_LIMIT = 10;
 let wordData = [];
 let activeWord = "";
 let restoredWordValue = "";
@@ -45,6 +52,7 @@ let loadedWebllmModel = "";
 let webllmLoadToken = 0;
 let aiLookupToken = 0;
 let pendingWebLLMWord = "";
+let voiceLoadRetryCount = 0;
 
 function historyKey() {
   return `${STORE_PREFIX}:${classSelect.value}:${subjectSelect.value}`;
@@ -56,6 +64,25 @@ function getSettings() {
   } catch {
     return {};
   }
+}
+
+function getSpeechSettings() {
+  try {
+    return JSON.parse(localStorage.getItem(SPEECH_SETTINGS_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function saveSpeechSettings() {
+  localStorage.setItem(
+    SPEECH_SETTINGS_KEY,
+    JSON.stringify({
+      rate: speechRateInput.value,
+      lang: speechAccentSelect.value,
+      voiceURI: speechVoiceSelect.value
+    })
+  );
 }
 
 function saveSettings() {
@@ -511,13 +538,85 @@ async function pasteFromClipboard() {
   }
 }
 
+function availableSpeechVoices() {
+  return "speechSynthesis" in window ? window.speechSynthesis.getVoices() : [];
+}
+
+function matchingSpeechVoices(lang) {
+  const voices = availableSpeechVoices();
+  const matchingVoices = voices.filter((voice) => voice.lang === lang || voice.lang.startsWith(`${lang}-`));
+  return matchingVoices.length ? matchingVoices : voices.filter((voice) => voice.lang.startsWith("en"));
+}
+
+function populateSpeechVoices() {
+  const settings = getSpeechSettings();
+  const voices = matchingSpeechVoices(speechAccentSelect.value);
+  const selectedVoiceURI = settings.voiceURI || speechVoiceSelect.value;
+  const fragment = document.createDocumentFragment();
+  const defaultOption = document.createElement("option");
+
+  defaultOption.value = "";
+  defaultOption.textContent = "Browser default";
+  fragment.append(defaultOption);
+
+  voices.forEach((voice) => {
+    const option = document.createElement("option");
+    option.value = voice.voiceURI;
+    option.textContent = `${voice.name} (${voice.lang})`;
+    fragment.append(option);
+  });
+
+  speechVoiceSelect.replaceChildren(fragment);
+  speechVoiceSelect.value = voices.some((voice) => voice.voiceURI === selectedVoiceURI)
+    ? selectedVoiceURI
+    : "";
+}
+
+function populateSpeechVoicesWhenReady() {
+  populateSpeechVoices();
+
+  if (availableSpeechVoices().length || voiceLoadRetryCount >= VOICE_LOAD_RETRY_LIMIT) {
+    return;
+  }
+
+  voiceLoadRetryCount += 1;
+  window.setTimeout(populateSpeechVoicesWhenReady, 250);
+}
+
+function restoreSpeechSettings() {
+  const settings = getSpeechSettings();
+  speechRateInput.value = settings.rate || String(DEFAULT_SPEECH_RATE);
+  speechRateValue.textContent = `${Number(speechRateInput.value).toFixed(2)}x`;
+  speechAccentSelect.value = settings.lang || "en-US";
+  populateSpeechVoices();
+}
+
+function selectedSpeechVoice() {
+  const voices = availableSpeechVoices();
+  const selectedVoice = voices.find((voice) => voice.voiceURI === speechVoiceSelect.value);
+  if (selectedVoice) return selectedVoice;
+
+  return (
+    voices.find((voice) => voice.lang === speechAccentSelect.value) ||
+    voices.find((voice) => voice.lang.startsWith(speechAccentSelect.value.slice(0, 2))) ||
+    null
+  );
+}
+
 function speakWord() {
   if (!activeWord || !("speechSynthesis" in window)) return;
 
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(activeWord);
-  utterance.lang = "en-US";
-  utterance.rate = 0.82;
+  const voice = selectedSpeechVoice();
+
+  utterance.lang = speechAccentSelect.value;
+  utterance.rate = Number(speechRateInput.value) || DEFAULT_SPEECH_RATE;
+  if (voice) {
+    utterance.voice = voice;
+    utterance.lang = voice.lang;
+  }
+
   window.speechSynthesis.speak(utterance);
 }
 
@@ -568,6 +667,7 @@ async function boot() {
   bootClassOptions();
   populateWebLLMModels();
   restoreSettings();
+  restoreSpeechSettings();
   restoreZoom();
 
   try {
@@ -605,6 +705,19 @@ async function boot() {
   classSelect.addEventListener("change", syncForSelectionChange);
   subjectSelect.addEventListener("change", syncForSelectionChange);
   speakButton.addEventListener("click", speakWord);
+  speechRateInput.addEventListener("input", () => {
+    speechRateValue.textContent = `${Number(speechRateInput.value).toFixed(2)}x`;
+    saveSpeechSettings();
+  });
+  speechAccentSelect.addEventListener("change", () => {
+    populateSpeechVoices();
+    saveSpeechSettings();
+  });
+  speechVoiceSelect.addEventListener("change", saveSpeechSettings);
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.addEventListener("voiceschanged", populateSpeechVoices);
+    populateSpeechVoicesWhenReady();
+  }
   clearHistoryButton.addEventListener("click", confirmClearHistory);
   pasteButton.addEventListener("click", pasteFromClipboard);
   randomWordButton.addEventListener("click", showRandomWord);
